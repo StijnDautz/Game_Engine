@@ -7,13 +7,13 @@ struct Quad {
 	Quad(float x, float y, float w, float h)
 	{
 		//First Triangle
-		vertexData[0].setPosition(x + w, y + h);
-		vertexData[1].setPosition(x, y + h);
-		vertexData[2].setPosition(x, y);
+		vertexData[0].position = glm::vec3(x + w, y + h, 0);
+		vertexData[1].position = glm::vec3(x, y + h, 0);
+		vertexData[2].position = glm::vec3(x, y, 0);
 
 		//Second Triangle
-		vertexData[3].setPosition(x, y);
-		vertexData[4].setPosition(x + w, y);
-		vertexData[5].setPosition(x + w, y + h);
+		vertexData[3].position = glm::vec3(x, y, 0);
+		vertexData[4].position = glm::vec3(x + w, y, 0);
+		vertexData[5].position = glm::vec3(x + w, y + h, 0);
 	}
 };

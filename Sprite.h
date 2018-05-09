@@ -8,19 +8,17 @@
 class Sprite
 {
 public:
+	GLuint vboID;
+
 	Sprite() {}
 	Sprite(float width, float height);
 	Sprite(float width, float height, float x, float y);
 	~Sprite();
 
 	void init(float x, float y);
-	void draw();
 
 private:
-	float _x;
-	float _y;
 	float _width;
 	float _height;
-	GLuint _vboID;
 	GLTexture _texture;
 };

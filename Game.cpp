@@ -4,10 +4,8 @@
 #include <iostream>
 #include <SDL\SDL.h>
 
-Game::Game() : _state(PLAY)
-{
-	_renderer = Renderer(1280, 720);
-}
+Game::Game() : _state(PLAY) {}
+Game::~Game() {}
 
 void Game::Run()
 {

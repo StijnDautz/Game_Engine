@@ -50,3 +50,7 @@ ipch/
 *.psess
 *.vsp
 *.vspx
+
+# Database files
+*.db
+*.opendb

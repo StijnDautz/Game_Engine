@@ -20,4 +20,3 @@ private:
 
 	void HandleCompileErrors(const std::string filePath);
 };
-
