@@ -4,7 +4,6 @@
 #include <GL\glew.h>
 
 Window::Window() : _width(0), _height(0), _sdlWindow(nullptr) {}
-
 Window::Window(std::string name, int w, int h)
 {
 	_width = w;
@@ -32,8 +31,13 @@ Window::Window(std::string name, int w, int h)
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 }
-
 Window::~Window() {}
+
+void Window::setDimensions(float w, float h)
+{
+	_width = w;
+	_height = h;
+}
 
 void Window::SetBackgroundColor(float r, float g, float b)
 {

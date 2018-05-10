@@ -1,6 +1,6 @@
 #pragma once
 #include "Shader.h"
-#include "Sprite.h"
+#include "Mesh.h"
 
 #include <string>
 #include <vector>
@@ -10,21 +10,12 @@ class Shaderpack
 public:
 	GLuint id;
 
-	Shaderpack();
-	Shaderpack(Shader* shaders);
+	Shaderpack(int id);
 	~Shaderpack();
 
 	void draw();
-	void AddSprite(Sprite* sprite);
-	void RemoveSprite();
+	void AddMesh(Mesh* mesh);
 
 private:
-	int _shaderCount;
-	int _attributeCount;
-	std::vector<Sprite*> _sprites;
-	
-	void CombineShaders(Shader* shaders);
-	void AddAttributes(Shader* shaders);
-	void LinkShaders(Shader* shaders);
-	void HandleLinkingErrors(Shader* shaders);
+	std::vector<Mesh*> _meshes;
 };

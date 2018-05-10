@@ -6,6 +6,15 @@
 struct RGBA32 {
 	glm::vec4 color;
 
+	RGBA32() : color(glm::vec4(0)) {}
+	RGBA32(glm::vec3 c) : color(c, 1.0f) {}
+	RGBA32(glm::vec4 c) : color(c) {}
+	void set(float R, float G, float B, float A) {
+		color.r = R;
+		color.g = G;
+		color.b = B;
+		color.a = A;
+	}
 	RGBA32* operator+=(RGBA32 i) {
 		color += i.color;
 		glm::clamp(color, 0.0f, 1.0f);
@@ -27,5 +36,11 @@ struct RGBA8 {
 		g = (GLubyte)(c.color.g * 255);
 		b = (GLubyte)(c.color.b * 255);
 		a = (GLubyte)(c.color.a * 255);
+	}
+	void set(GLubyte R, GLubyte G, GLubyte B, GLubyte A) {
+		r = R;
+		g = G;
+		b = B;
+		a = A;
 	}
 };
