@@ -22,6 +22,15 @@
     <Filter Include="Source Files\Rendering">
       <UniqueIdentifier>{d2820721-d85b-4a25-b952-f5ba62765f3b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Rendering\Shaders">
+      <UniqueIdentifier>{bb6b4370-5cb2-484b-9e74-b7234e75e7dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Rendering\Shaders">
+      <UniqueIdentifier>{e1358c30-b610-404d-9825-84c668877125}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Rendering\VertexData">
+      <UniqueIdentifier>{bc153e91-79df-42f4-9620-39da1e832b51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -39,25 +48,34 @@
     <ClCompile Include="Renderer.cpp">
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Shaderpack.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Source Files\Rendering</Filter>
+    <ClCompile Include="ShaderFactory.cpp">
+      <Filter>Source Files\Rendering\Shaders</Filter>
     </ClCompile>
-    <ClCompile Include="MeshFactory.cpp">
-      <Filter>Source Files\Rendering</Filter>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\Rendering\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaderpack.cpp">
+      <Filter>Source Files\Rendering\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="ShaderpackFactory.cpp">
+      <Filter>Source Files\Rendering\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\Rendering\VertexData</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshFactory.cpp">
+      <Filter>Source Files\Rendering\VertexData</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderFactory.cpp">
+    <ClCompile Include="TextureFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="picoPNG.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,12 +95,6 @@
     <ClInclude Include="Renderer.h">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="Shaderpack.h">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="MeshFactory.h">
       <Filter>Header Files\Rendering\VertexData</Filter>
     </ClInclude>
@@ -95,13 +107,28 @@
     <ClInclude Include="Color.h">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="GLTexture.h">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="ShaderpackFactory.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Rendering\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="ShaderFactory.h">
+      <Filter>Header Files\Rendering\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\Rendering\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaderpack.h">
+      <Filter>Header Files\Rendering\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="picoPNG.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

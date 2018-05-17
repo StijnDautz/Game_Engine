@@ -1,11 +1,14 @@
 #pragma once
 #include "Renderer.h"
+#include "ResourceManager.h"
+
+extern ResourceManager* resourceManager;
 
 class Game
 {
+public:
 	enum Gamestate { PLAY, QUIT };
 
-public:
 	Game();
 	~Game();
 	void Run();

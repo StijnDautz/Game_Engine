@@ -4,8 +4,10 @@
 class Mesh
 {
 public:
-	GLuint vboID;
+	GLuint vaoID;
 
-	Mesh(GLuint id);
+	Mesh(GLuint vao);
 	~Mesh();
+
+	void draw();
 };

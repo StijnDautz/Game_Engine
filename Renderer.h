@@ -15,8 +15,5 @@ private:
 	int _scrWidth;
 	int _scrHeight;
 	Window _window;
-	Shaderpack* _shaderPack;
-
-	void initShaders();
-	void initMeshes();
+	Shaderpack* _shaderpack;
 };

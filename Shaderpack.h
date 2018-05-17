@@ -9,11 +9,13 @@ class Shaderpack
 {
 public:
 	GLuint id;
+	GLint _textureLocation;
 
-	Shaderpack(int id);
+	Shaderpack(int packID, GLint textureLocation);
 	~Shaderpack();
 
 	void draw();
+	void bindTexture();
 	void AddMesh(Mesh* mesh);
 
 private:

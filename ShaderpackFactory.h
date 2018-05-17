@@ -8,13 +8,8 @@
 class ShaderpackFactory
 {
 public:
-	ShaderpackFactory();
-	~ShaderpackFactory();
-
-	static Shaderpack* create(std::vector<Shader> shaders, std::vector<std::string> attributes);
+	static Shaderpack * create(GLuint vertex_shader, GLuint fragment_shader);
 
 private:
-	static void AttachShaders(std::vector<Shader> shaders, int packID);
-	static void AddAttributes(std::vector<std::string> attributes, int packID);
-	static void HandleLinkingErrors(std::vector<Shader> shaders, int packID);
+	static void handleLinkingErrors(GLuint packID);
 };

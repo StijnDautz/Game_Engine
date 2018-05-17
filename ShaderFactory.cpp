@@ -4,37 +4,26 @@
 
 #include <vector>
 
-
-ShaderFactory::ShaderFactory() {}
-ShaderFactory::~ShaderFactory() {}
-
-Shader ShaderFactory::create(GLenum type, std::string filePath)
+Shader* ShaderFactory::create(GLenum type, std::string filePath)
 {
-	GLuint id = glCreateShader(type);
-	std::string file = ReadFile(filePath);
-	const char* ptr = file.c_str();
-	glShaderSource(id, 1, &ptr, nullptr);
-	glCompileShader(id);
-	HandleCompileErrors(id, filePath);
-	return Shader(id);
+	GLuint vertex_shader = glCreateShader(type);
+	std::string file = ReadStringFromFile(filePath);
+	const char *source = file.c_str();
+	glShaderSource(vertex_shader, 1, &source, nullptr);
+	glCompileShader(vertex_shader);
+	HandleCompileErrors(vertex_shader, filePath);
+	return new Shader(vertex_shader);
 }
 
-void ShaderFactory::HandleCompileErrors(int id, std::string filePath)
+void ShaderFactory::HandleCompileErrors(GLuint id, std::string filePath)
 {
-	GLint isCompiled = 0;
-	glGetShaderiv(id, GL_COMPILE_STATUS, &isCompiled);
-	if (isCompiled == GL_FALSE)
-	{
-		GLint maxLength = 0;
-		glGetShaderiv(id, GL_INFO_LOG_LENGTH, &maxLength);
-
-		// The maxLength includes the NULL character
-		std::vector<GLchar> errorLog(maxLength);
-		glGetShaderInfoLog(id, maxLength, &maxLength, &errorLog[0]);
-
-		// Provide the infolog in whatever manor you deem best.
-		// Exit with failure.
-		glDeleteShader(id); // Don't leak the shader.
-		fatalError("Shader compile error at file: " + filePath);
+	GLint status;
+	glGetShaderiv(id, GL_COMPILE_STATUS, &status);
+	if (status == GL_FALSE) {
+		GLint length;
+		glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
+		std::vector<char> log(length);
+		glGetShaderInfoLog(id, length, &length, &log[0]);
+		fatalError(&log[0]);
 	}
 }

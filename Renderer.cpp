@@ -1,52 +1,48 @@
 #include "Renderer.h"
 #include "Logger.h"
+#include "Game.h"
 #include "MeshFactory.h"
-#include "ShaderFactory.h"
 #include "ShaderpackFactory.h"
 
 #include <GL\glew.h>
+#include <iostream>
 
-Renderer::Renderer() : _shaderPack(nullptr) {}
+Renderer::Renderer() : _shaderpack(nullptr) {}
 Renderer::~Renderer() {}
 
 void Renderer::init()
 {
-	_window = Window("RayTracerV1.1", 1280, 720);
-	initShaders();
-	initMeshes();
+	_window = Window("TextureTest", 640, 480);
+
+	// load assets
+	resourceManager->LoadShader(GL_VERTEX_SHADER, "Shaders/vertexShader.glsl");
+	resourceManager->LoadShader(GL_FRAGMENT_SHADER, "Shaders/fragmentShader.glsl");
+
+	resourceManager->LoadTexture("Textures/knight.png");
+	resourceManager->AddMesh("screenQuad", MeshFactory::createScreenQuad());
+
+	// create program
+	Shader * vertexshader = resourceManager->GetShader("Shaders/vertexShader.glsl");
+	Shader * fragmentshader = resourceManager->GetShader("Shaders/fragmentShader.glsl");
+	_shaderpack = ShaderpackFactory::create(vertexshader->id, fragmentshader->id);
+
+	// link mesh to shaderpack
+	_shaderpack->AddMesh(resourceManager->GetMesh("screenQuad"));
 }
 
 void Renderer::render()
 {
+	// clear first
 	glClear(GL_COLOR_BUFFER_BIT);
-	glUseProgram(_shaderPack->id);
 
-	_shaderPack->draw();
+	_shaderpack->draw();
+
+	// check for errors
+	GLenum error = glGetError();
+	if (error != GL_NO_ERROR) {
+		std::cerr << error << std::endl;
+		fatalError("An error occured while rendering");
+	}
+
 	_window.swap();
-}
-
-void Renderer::initShaders()
-{
-	Shader vertShader = ShaderFactory::create(GL_VERTEX_SHADER, "Shaders/vertexShader.glsl");
-	Shader fragShader = ShaderFactory::create(GL_FRAGMENT_SHADER, "Shaders/fragmentShader.glsl");
-
-	_shaderPack = ShaderpackFactory::create(
-		std::vector<Shader> { vertShader, fragShader }, 
-		std::vector<std::string> { "pos", "vertexColor" });
-}
-
-void Renderer::initMeshes()
-{
-	RGBA32 color0 = RGBA32(glm::vec3(0.8f, 0.6f, 0.3f));
-	RGBA32 color1 = RGBA32(glm::vec3(0.1f, 0.2f, 0.9f));
-	Vertex v0 = Vertex(glm::vec3(-1, -1, 0), color0);
-	Vertex v1 = Vertex(glm::vec3(-1, 0, 0), color0);
-	Vertex v2 = Vertex(glm::vec3(0, 0, 0), color0);
-	Vertex v3 = Vertex(glm::vec3(0, -1, 0), color1);
-	Vertex v4 = Vertex(glm::vec3(1, 1, 0), color1);
-
-	Mesh* quad0 = MeshFactory::createQuad(v0, v1, v2, v3, GL_STATIC_DRAW);
-	Mesh* triangle0 = MeshFactory::createTriangle(v1, v2, v4, GL_STATIC_DRAW);
-	_shaderPack->AddMesh(quad0);
-	_shaderPack->AddMesh(triangle0);
 }

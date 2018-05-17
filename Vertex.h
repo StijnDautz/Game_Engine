@@ -5,8 +5,8 @@
 
 struct Vertex {
 	glm::vec4 position;
-	RGBA32 color;
+	glm::vec2 uv;
 
 	Vertex() {}
-	Vertex(glm::vec3 pos, RGBA32 c) : position(pos, 1.0f), color(c) {}
+	Vertex(glm::vec3 pos, glm::vec2 UV) : position(pos, 1.0f), uv(UV) {}
 };

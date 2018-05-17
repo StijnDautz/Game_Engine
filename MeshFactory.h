@@ -2,15 +2,16 @@
 #include "Vertex.h"
 #include "Mesh.h"
 
+#include <vector>
+
 class MeshFactory
 {
 public:
-	MeshFactory();
-	~MeshFactory();
-
-	static Mesh* createTriangle(Vertex v0, Vertex v1, Vertex v2, GLenum usage);
-	static Mesh* createQuad(Vertex v0, Vertex v1, Vertex v2, Vertex v3, GLenum usage);
-
+	static Mesh * create(std::vector<Vertex> vertices, std::vector<GLuint> indices, GLenum usage);
+	static Mesh * createScreenQuad();
+	
 private:
-	static GLuint LoadVBO(Vertex* vertices, int count, GLenum usage);
+	static void fillVBO(std::vector<Vertex> vertices, GLenum usage);
+	static void fillIBO(std::vector<GLuint> indices, GLenum usage);
+	static void setAttribPointers();
 };

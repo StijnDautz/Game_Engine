@@ -3,11 +3,7 @@
 class ShaderFactory
 {
 public:
-	ShaderFactory();
-	~ShaderFactory();
-
-	static Shader create(GLenum type, std::string filePath);
-
+	static Shader* create(GLenum type, std::string filePath);
 private:
-	static void HandleCompileErrors(int id, std::string filePath);
+	static void HandleCompileErrors(GLuint id, std::string filePath);
 };

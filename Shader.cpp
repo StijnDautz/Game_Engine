@@ -3,6 +3,7 @@
 #include "Logger.h"
 #include <vector>
 
+Shader::Shader() {}
 Shader::Shader(GLuint ID) : id(ID) {}
 Shader::~Shader()
 {
