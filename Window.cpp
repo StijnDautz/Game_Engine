@@ -33,7 +33,7 @@ Window::Window(std::string name, int w, int h)
 }
 Window::~Window() {}
 
-void Window::setDimensions(float w, float h)
+void Window::setDimensions(int w, int h)
 {
 	_width = w;
 	_height = h;

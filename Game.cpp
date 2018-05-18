@@ -7,6 +7,8 @@
 Game::Game() : _state(PLAY) {}
 Game::~Game() {}
 
+ResourceManager* resourceManager = new ResourceManager();
+
 void Game::Run()
 {
 	InitSystems();

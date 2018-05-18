@@ -4,14 +4,12 @@
 
 Texture* TextureFactory::create(std::vector<unsigned char> pixels, int width, int height)
 {
-	// texture handle
-	GLuint texture;
-
 	// generate texture
-	glGenTextures(1, &texture);
+	GLuint id;
+	glGenTextures(1, &id);
 
-	// bind the texture
-	glBindTexture(GL_TEXTURE_2D, texture);
+	// bind texture
+	glBindTexture(GL_TEXTURE_2D, id);
 
 	// set texture parameters
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -21,7 +19,10 @@ Texture* TextureFactory::create(std::vector<unsigned char> pixels, int width, in
 
 	// set texture content
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &pixels[0]);
-	return new Texture(texture, width, height);
+
+	//unbind texture
+	glBindTexture(GL_TEXTURE_2D, 0);
+	return new Texture(id, width, height, pixels);
 }
 
 Texture * TextureFactory::createFromFile(std::string filePath)

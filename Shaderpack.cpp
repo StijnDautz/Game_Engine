@@ -1,6 +1,5 @@
 //More info on shader linking at https://www.khronos.org/opengl/wiki/Shader_Compilation
 #include "Shaderpack.h"
-
 #include "Logger.h"
 #include "Vertex.h"
 #include "Game.h"

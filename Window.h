@@ -9,7 +9,7 @@ public:
 	Window(std::string name, int w, int h);
 	~Window();
 
-	void setDimensions(float w, float h);
+	void setDimensions(int w, int h);
 	void SetBackgroundColor(float r, float g, float b);
 	void swap();
 

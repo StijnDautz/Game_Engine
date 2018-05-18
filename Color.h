@@ -31,6 +31,8 @@ struct RGBA8 {
 	GLubyte r, g, b, a;
 
 	RGBA8() : r(0), g(0), b(0), a(0) {}
+	RGBA8(GLubyte R, GLubyte G, GLubyte B, GLubyte A) : r(R), g(G), b(B), a(A) {}
+	
 	void set(RGBA32 c) {
 		r = (GLubyte)(c.color.r * 255);
 		g = (GLubyte)(c.color.g * 255);

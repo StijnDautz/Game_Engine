@@ -69,8 +69,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)deps/include/;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)deps/libs/;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)deps/include/;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)deps/libs/;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(SolutionDir)/deps/include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)/deps/libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -80,7 +84,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;glew32.lib;SDL2test.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -89,6 +93,10 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>glew32.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -130,6 +138,7 @@
     <ClCompile Include="ShaderFactory.cpp" />
     <ClCompile Include="Shaderpack.cpp" />
     <ClCompile Include="ShaderpackFactory.cpp" />
+    <ClCompile Include="TextureEditor.cpp" />
     <ClCompile Include="TextureFactory.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -148,6 +157,7 @@
     <ClInclude Include="Shaderpack.h" />
     <ClInclude Include="ShaderpackFactory.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TextureEditor.h" />
     <ClInclude Include="TextureFactory.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="Window.h" />
