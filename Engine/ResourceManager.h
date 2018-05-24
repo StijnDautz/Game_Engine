@@ -20,6 +20,7 @@ public:
 
 	//TEXTURES
 	Texture* LoadTexture(const std::string filePath);
+	Texture* AddTexture(std::string name, Texture* texture);
 	Texture* AddTexture(std::string name, std::vector<unsigned char> pixels, int width, int height);
 
 	//SHADERS
@@ -39,7 +40,4 @@ private:
 	std::map<std::string, Texture*> _textures;
 	std::map<std::string, Shader*> _shaders;
 	std::map<std::string, Shaderpack*> _shaderpacks;
-
-	//TEXTURES helper function
-	Texture* InsertTexture(std::string name, Texture* texture);
 };

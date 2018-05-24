@@ -1,6 +1,7 @@
 #include "RaytracerGame.h"
 
 #include "Engine\MeshFactory.h"
+#include "Engine\TextureFactory.h"
 #include "Engine\ShaderpackFactory.h"
 
 RaytracerGame::RaytracerGame() {}
@@ -21,7 +22,8 @@ void RaytracerGame::init()
 	Shaderpack* basicpack = ShaderpackFactory::create(vert->id, frag->id);
 	resourceManager->AddShaderpack("basic", basicpack);
 
-	Texture* texture = resourceManager->GetTexture("Textures/knight.png");
+	Texture* texture = TextureFactory::create(GetScreenWidth(), GetScreenHeight(), RGBA8(0, 120, 40, 255));
+	resourceManager->AddTexture("screen", texture);
 
 	Mesh* screenQuad = MeshFactory::createScreenQuad();
 	resourceManager->AddMesh("screenQuad", screenQuad);

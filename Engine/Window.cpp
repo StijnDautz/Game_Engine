@@ -3,11 +3,11 @@
 
 #include <GL\glew.h>
 
-Window::Window() : _width(0), _height(0), _sdlWindow(nullptr) {}
+Window::Window() : width(0), height(0), _sdlWindow(nullptr) {}
 Window::Window(std::string name, int w, int h)
 {
-	_width = w;
-	_height = h;
+	width = w;
+	height = h;
 
 	//init SDL
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -35,8 +35,8 @@ Window::~Window() {}
 
 void Window::setDimensions(int w, int h)
 {
-	_width = w;
-	_height = h;
+	width = w;
+	height = h;
 }
 
 void Window::SetBackgroundColor(float r, float g, float b)

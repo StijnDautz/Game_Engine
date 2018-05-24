@@ -8,7 +8,7 @@ Renderer::~Renderer() {}
 
 void Renderer::setup()
 {
-	_window = Window("TextureTest", 640, 480);
+	window = Window("TextureTest", 640, 480);
 }
 
 void Renderer::render()
@@ -44,7 +44,7 @@ void Renderer::render()
 		fatalError("An error occured while rendering");
 	}
 
-	_window.swap();
+	window.swap();
 }
 
 void Renderer::AddRenderComponent(RenderComponent obj)

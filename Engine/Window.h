@@ -9,12 +9,13 @@ public:
 	Window(std::string name, int w, int h);
 	~Window();
 
+	int width;
+	int height;
+
 	void setDimensions(int w, int h);
 	void SetBackgroundColor(float r, float g, float b);
 	void swap();
 
 private:
-	int _width;
-	int _height;
 	SDL_Window* _sdlWindow;
 };

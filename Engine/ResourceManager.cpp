@@ -13,18 +13,18 @@ void ResourceManager::AddMesh(std::string name, Mesh * mesh)
 //TEXTURE
 Texture * ResourceManager::LoadTexture(std::string filePath)
 {
-	return InsertTexture(filePath, TextureFactory::createFromFile(filePath));
+	return AddTexture(filePath, TextureFactory::createFromFile(filePath));
+}
+
+Texture* ResourceManager::AddTexture(std::string name, Texture* texture)
+{
+	_textures.insert(std::make_pair(name, texture));
+	return texture;
 }
 
 Texture * ResourceManager::AddTexture(std::string name, std::vector<unsigned char> pixels, int width, int height)
 {
-	return InsertTexture(name, TextureFactory::create(pixels, width, height));
-}
-//helper function
-Texture* ResourceManager::InsertTexture(std::string name, Texture* texture)
-{
-	_textures.insert(std::make_pair(name, texture));
-	return texture;
+	return AddTexture(name, TextureFactory::create(pixels, width, height));
 }
 
 //SHADER

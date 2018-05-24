@@ -24,13 +24,12 @@ public:
 	Renderer();
 	~Renderer();
 
+	Window window;
+
 	void setup();
 	void render();
 	void AddRenderComponent(RenderComponent obj);
 
 private:
-	int _scrWidth;
-	int _scrHeight;
-	Window _window;
 	Rendermap renderMap;
 };

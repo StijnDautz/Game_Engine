@@ -25,6 +25,21 @@ Texture* TextureFactory::create(std::vector<unsigned char> pixels, int width, in
 	return new Texture(id, width, height, pixels);
 }
 
+Texture * TextureFactory::create(int width, int height, RGBA8 color)
+{
+	int length = width * height * 4;
+	std::vector<unsigned char> pixels = std::vector<unsigned char>(length);
+
+	for (int i = 0; i < length; i+=4) {
+		pixels[i] = color.r;
+		pixels[i + 1] = color.g;
+		pixels[i + 2] = color.b;
+		pixels[i + 3] = color.a;
+	}
+
+	return create(pixels, width, height);
+}
+
 Texture * TextureFactory::createFromFile(std::string filePath)
 {
 	std::vector<unsigned char> pixels; int w, h;
