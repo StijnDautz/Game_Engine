@@ -4,11 +4,23 @@
 
 #include <fstream>
 #include <iostream>
+#include <windows.h>
+#include <string>
+
+std::string ExePath() {
+	char buffer[MAX_PATH];
+	GetModuleFileNameA(NULL, buffer, MAX_PATH);
+	std::string::size_type pos = std::string(buffer).find_last_of("\\/");
+	return std::string(buffer).substr(0, pos);
+}
+
+std::string GetGlobalPath(std::string filePath) {
+	return ExePath() + "/" + filePath;
+}
 
 std::string ReadStringFromFile(std::string filePath)
 {
-	std::ifstream stream(filePath);
-	std::ifstream myfile("example.txt");
+	std::ifstream stream(GetGlobalPath(filePath));
 	if (stream.fail()) {
 		fatalError("Failed to open" + filePath);
 	}
@@ -23,7 +35,7 @@ std::string ReadStringFromFile(std::string filePath)
 
 //this function was written by Ben Arnolds
 bool readFileToBuffer(std::string filePath, std::vector<unsigned char>& buffer) {
-	std::ifstream file(filePath, std::ios::binary);
+	std::ifstream file(GetGlobalPath(filePath), std::ios::binary);
 	if (file.fail()) {
 		perror(filePath.c_str());
 		fatalError(filePath + " could not be loaded");

@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.27428.2043
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Raytracer", "Raytracer.vcxproj", "{EF806F80-FD02-45CD-896B-E22A3755FEC4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Raytracer", "Raytracer.vcxproj", "{AAD864DA-8E42-4B27-B84C-D87CB788EE0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,19 +13,19 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EF806F80-FD02-45CD-896B-E22A3755FEC4}.Debug|x64.ActiveCfg = Debug|x64
-		{EF806F80-FD02-45CD-896B-E22A3755FEC4}.Debug|x64.Build.0 = Debug|x64
-		{EF806F80-FD02-45CD-896B-E22A3755FEC4}.Debug|x86.ActiveCfg = Debug|Win32
-		{EF806F80-FD02-45CD-896B-E22A3755FEC4}.Debug|x86.Build.0 = Debug|Win32
-		{EF806F80-FD02-45CD-896B-E22A3755FEC4}.Release|x64.ActiveCfg = Release|x64
-		{EF806F80-FD02-45CD-896B-E22A3755FEC4}.Release|x64.Build.0 = Release|x64
-		{EF806F80-FD02-45CD-896B-E22A3755FEC4}.Release|x86.ActiveCfg = Release|Win32
-		{EF806F80-FD02-45CD-896B-E22A3755FEC4}.Release|x86.Build.0 = Release|Win32
+		{AAD864DA-8E42-4B27-B84C-D87CB788EE0F}.Debug|x64.ActiveCfg = Debug|x64
+		{AAD864DA-8E42-4B27-B84C-D87CB788EE0F}.Debug|x64.Build.0 = Debug|x64
+		{AAD864DA-8E42-4B27-B84C-D87CB788EE0F}.Debug|x86.ActiveCfg = Debug|Win32
+		{AAD864DA-8E42-4B27-B84C-D87CB788EE0F}.Debug|x86.Build.0 = Debug|Win32
+		{AAD864DA-8E42-4B27-B84C-D87CB788EE0F}.Release|x64.ActiveCfg = Release|x64
+		{AAD864DA-8E42-4B27-B84C-D87CB788EE0F}.Release|x64.Build.0 = Release|x64
+		{AAD864DA-8E42-4B27-B84C-D87CB788EE0F}.Release|x86.ActiveCfg = Release|Win32
+		{AAD864DA-8E42-4B27-B84C-D87CB788EE0F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {C60F4D4E-9FA4-445F-A36C-F712049D8F1E}
+		SolutionGuid = {23064C8D-4615-4A8D-8E8D-F635A4490880}
 	EndGlobalSection
 EndGlobal

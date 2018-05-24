@@ -20,35 +20,37 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{EF806F80-FD02-45CD-896B-E22A3755FEC4}</ProjectGuid>
+    <ProjectGuid>{AAD864DA-8E42-4B27-B84C-D87CB788EE0F}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
     <RootNamespace>Raytracer</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -69,98 +71,127 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)deps/include/;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)deps/libs/;$(LibraryPath)</LibraryPath>
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir)deps\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)deps/lib/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)/deps/include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)/deps/libs;$(LibraryPath)</LibraryPath>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>SDL2main.lib;SDL2.lib;opengl32.lib;glew32.lib;Engine.lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>glew32.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glew32.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="IOManager.cpp" />
-    <ClCompile Include="Logger.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="MeshFactory.cpp" />
-    <ClCompile Include="picoPNG.cpp" />
-    <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="ShaderFactory.cpp" />
-    <ClCompile Include="Shaderpack.cpp" />
-    <ClCompile Include="ShaderpackFactory.cpp" />
-    <ClCompile Include="TextureEditor.cpp" />
-    <ClCompile Include="TextureFactory.cpp" />
-    <ClCompile Include="Window.cpp" />
+    <ClInclude Include="Engine\Color.h" />
+    <ClInclude Include="Engine\Game.h" />
+    <ClInclude Include="Engine\InputManager.h" />
+    <ClInclude Include="Engine\IOManager.h" />
+    <ClInclude Include="Engine\Logger.h" />
+    <ClInclude Include="Engine\Mesh.h" />
+    <ClInclude Include="Engine\MeshFactory.h" />
+    <ClInclude Include="Engine\picoPNG.h" />
+    <ClInclude Include="Engine\Renderer.h" />
+    <ClInclude Include="Engine\ResourceManager.h" />
+    <ClInclude Include="Engine\Shader.h" />
+    <ClInclude Include="Engine\ShaderFactory.h" />
+    <ClInclude Include="Engine\Shaderpack.h" />
+    <ClInclude Include="Engine\ShaderpackFactory.h" />
+    <ClInclude Include="Engine\targetver.h" />
+    <ClInclude Include="Engine\Texture.h" />
+    <ClInclude Include="Engine\TextureEditor.h" />
+    <ClInclude Include="Engine\TextureFactory.h" />
+    <ClInclude Include="Engine\Vertex.h" />
+    <ClInclude Include="Engine\Window.h" />
+    <ClInclude Include="RaytracerGame.h" />
+    <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Color.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="IOManager.h" />
-    <ClInclude Include="Logger.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="MeshFactory.h" />
-    <ClInclude Include="picoPNG.h" />
-    <ClInclude Include="Renderer.h" />
-    <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="ShaderFactory.h" />
-    <ClInclude Include="Shaderpack.h" />
-    <ClInclude Include="ShaderpackFactory.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="TextureEditor.h" />
-    <ClInclude Include="TextureFactory.h" />
-    <ClInclude Include="Vertex.h" />
-    <ClInclude Include="Window.h" />
+    <ClCompile Include="Engine\Game.cpp" />
+    <ClCompile Include="Engine\InputManager.cpp" />
+    <ClCompile Include="Engine\IOManager.cpp" />
+    <ClCompile Include="Engine\Logger.cpp" />
+    <ClCompile Include="Engine\Mesh.cpp" />
+    <ClCompile Include="Engine\MeshFactory.cpp" />
+    <ClCompile Include="Engine\picoPNG.cpp" />
+    <ClCompile Include="Engine\Renderer.cpp" />
+    <ClCompile Include="Engine\ResourceManager.cpp" />
+    <ClCompile Include="Engine\Shader.cpp" />
+    <ClCompile Include="Engine\ShaderFactory.cpp" />
+    <ClCompile Include="Engine\ShaderpackFactory.cpp" />
+    <ClCompile Include="Engine\TextureEditor.cpp" />
+    <ClCompile Include="Engine\TextureFactory.cpp" />
+    <ClCompile Include="Engine\Window.cpp" />
+    <ClCompile Include="Raytracer.cpp" />
+    <ClCompile Include="RaytracerGame.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

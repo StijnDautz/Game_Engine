@@ -10,7 +10,7 @@ struct Texture {
 	int height;
 	std::vector<unsigned char> pixels;
 
-	Texture(GLuint ID, int w, int h, std::vector<unsigned char> p) : id(ID), width(w), height(h), pixels(p) {}
+	Texture(GLuint ID,int w, int h, std::vector<unsigned char> p) : id(ID), width(w), height(h), pixels(p) {}
 	~Texture() {}
 
 	void update()
