@@ -29,6 +29,7 @@ public:
 	void setup();
 	void render();
 	void AddRenderComponent(RenderComponent obj);
+	void RemoveRenderComponent(RenderComponent obj) {}
 
 private:
 	Rendermap renderMap;

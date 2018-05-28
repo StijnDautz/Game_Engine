@@ -8,7 +8,7 @@ class MeshFactory
 {
 public:
 	static Mesh * create(std::vector<Vertex> vertices, std::vector<GLuint> indices, GLenum usage);
-	static Mesh * createScreenQuad();
+	static Mesh * createScreenQuad(float start, float end);
 	
 private:
 	static void fillVBO(std::vector<Vertex> vertices, GLenum usage);

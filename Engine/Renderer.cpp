@@ -8,7 +8,7 @@ Renderer::~Renderer() {}
 
 void Renderer::setup()
 {
-	window = Window("TextureTest", 640, 480);
+	window = Window("TextureTest", 1024, 512);
 }
 
 void Renderer::render()

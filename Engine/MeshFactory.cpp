@@ -16,13 +16,13 @@ Mesh* MeshFactory::create(std::vector<Vertex> vertices, std::vector<GLuint> indi
 	return new Mesh(vao);
 }
 
-Mesh * MeshFactory::createScreenQuad()
+Mesh * MeshFactory::createScreenQuad(float start, float end)
 {
 	std::vector<Vertex> vertices = {
-		Vertex(glm::vec3( 1.0f,  1.0f, 0.0f), glm::vec2(1.0f, 1.0f)),  // vertex 0
-		Vertex(glm::vec3(-1.0f,  1.0f, 0.0f), glm::vec2(0.0f, 1.0f)),  // vertex 1
-		Vertex(glm::vec3( 1.0f, -1.0f, 0.0f), glm::vec2(1.0f, 0.0f)),  // vertex 2
-		Vertex(glm::vec3(-1.0f, -1.0f, 0.0f), glm::vec2(0.0f, 0.0f))   // vertex 3
+		Vertex(glm::vec3( end  ,  1.0f, 0.0f), glm::vec2(1.0f, 1.0f)),  // vertex 0
+		Vertex(glm::vec3( start,  1.0f, 0.0f), glm::vec2(0.0f, 1.0f)),  // vertex 1
+		Vertex(glm::vec3( end  , -1.0f, 0.0f), glm::vec2(1.0f, 0.0f)),  // vertex 2
+		Vertex(glm::vec3( start, -1.0f, 0.0f), glm::vec2(0.0f, 0.0f))   // vertex 3
 	};
 
 	std::vector<GLuint> indices{
