@@ -6,14 +6,15 @@
 class RaytracerGame : public Game
 {
 public:
-	RaytracerGame();
-	~RaytracerGame();
+	RaytracerGame() : debuggerEnabled(true), resolutionX(512), resolutionY(512), focalLength(1) {}
+	~RaytracerGame() {}
 
 	void load() override;
 	void init() override;
 	void update() override;
 
 private:
+	bool debuggerEnabled;
 	float focalLength;
 	Transform camera;
 	int resolutionX;
@@ -22,4 +23,6 @@ private:
 	Texture* displayed;
 	Texture* image;
 	Texture* debug;
+
+	void ComputePart(int x, int y);
 };

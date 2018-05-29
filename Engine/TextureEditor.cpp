@@ -10,24 +10,54 @@ void TextureEditor::drawPixel(Texture * texture, int x, int y, RGBA8 color)
 	texture->pixels[offset + 3] = color.a;
 }
 
-// more info on https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
-void TextureEditor::drawLine(Texture * texture, int x0, int y0, int x1, int y1, RGBA8 color)
+// code used from https://rosettacode.org/wiki/Bitmap/Bresenham%27s_line_algorithm#C.2B.2B
+void TextureEditor::drawLine(Texture* texture, int x1, int y1, int x2, int y2, RGBA8 color)
 {
-	int dx = x1 - x0;
-	int dy = y1 - y0;
-	int d = dy - dx;
-	int xInc = -2 * dx;
-	int yInc = 2 * dy;
+	// Bresenham's line algorithm
+	const bool steep = (fabs(y2 - y1) > fabs(x2 - x1));
+	if (steep)
+	{
+		std::swap(x1, y1);
+		std::swap(x2, y2);
+	}
 
-	for (int x = x0; x < x1; x++) {
-		drawPixel(texture, x, y0, color);
-		if (d > 0) {
-			d += -2 * dx;
-			y0++;
+	if (x1 > x2)
+	{
+		std::swap(x1, x2);
+		std::swap(y1, y2);
+	}
+
+	const float dx = x2 - x1;
+	const float dy = fabs(y2 - y1);
+
+	float error = dx / 2.0f;
+	const int ystep = (y1 < y2) ? 1 : -1;
+	int y = (int)y1;
+
+	const int maxX = (int)x2;
+
+	for (int x = (int)x1; x<maxX; x++)
+	{
+		// check if pixel is within texture boundaries
+		if (x < 0 || x > texture->width || y < 0 || y > texture->height) {
+			break;
 		}
-		d += 2 * dy;
+		if (steep) {
+			drawPixel(texture, y, x, color);
+		}
+		else {
+			drawPixel(texture, x, y, color);
+		}
+
+		error -= dy;
+		if (error < 0)
+		{
+			y += ystep;
+			error += dx;
+		}
 	}
 }
+
 
 // code used from https://en.wikipedia.org/wiki/Midpoint_circle_algorithm
 void TextureEditor::drawCircle(Texture * texture, int x0, int y0, int r, RGBA8 color)

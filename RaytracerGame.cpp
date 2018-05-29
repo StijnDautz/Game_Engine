@@ -6,13 +6,8 @@
 #include "Engine\ShaderpackFactory.h"
 #include "Engine\TextureEditor.h"
 
-RaytracerGame::RaytracerGame() : resolutionX(512), resolutionY(512), focalLength(1) {}
-RaytracerGame::~RaytracerGame() {}
-
 void RaytracerGame::load()
 {	
-	resourceManager->LoadTexture("Textures/knight.png");
-
 	resourceManager->LoadShader(GL_VERTEX_SHADER, "Shaders/vertexShader.glsl");
 	resourceManager->LoadShader(GL_FRAGMENT_SHADER, "Shaders/fragmentShader.glsl");	
 }
@@ -36,14 +31,22 @@ void RaytracerGame::init()
 
 	//init scene
 	// objects
-	Primitive* sphere = new Sphere(glm::vec3(0, 0, 6.0f), 2.0f);
 	RGBA32 blue = RGBA32(glm::vec3(0.1f, 0.1f, 1.0f));
-	ColoredObj blueSphere = ColoredObj(sphere, blue);
+	RGBA32 red = RGBA32(glm::vec3(0.9f, 0.1f, 0.1f));
+
+	Primitive* sphere0 = new Sphere(glm::vec3(2, 0, 4.0f), 1.0f);
+	ColoredObj blueSphere = ColoredObj(sphere0, blue);
 	blueSphere.diffuse = 1.0f;
 	_scene.AddObject(blueSphere);
 
+	Primitive* sphere1 = new Sphere(glm::vec3(-1.0f, 0, 5.0f), 1.0f);
+	ColoredObj dieletricSphere = ColoredObj(sphere1, red); // TODO color should be able to be uninitialized
+	dieletricSphere.diffuse = 0.0f;
+	dieletricSphere.specular = 1.0f;
+	_scene.AddObject(dieletricSphere);
+
 	// lights
-	_scene.AddLight(Light(glm::vec3(-4, 0, 0), 1.0f));
+	_scene.AddLight(Light(glm::vec3(-1.0f, 0, 2), 1.0f));
 }
 
 void RaytracerGame::update()
@@ -52,14 +55,53 @@ void RaytracerGame::update()
 	if (inputManager->IsKeyDown(SDL_SCANCODE_ESCAPE)) {
 		quit();
 	}
+	// switch mode when key M is pressed
+	if (inputManager->IsKeyDown(SDL_SCANCODE_M)) {
+		debuggerEnabled = !debuggerEnabled;
+	}
 
-	// compute topleft corner of screen
+	// XAXIS MOVEMENT
+	glm::vec3 xAxis = camera.xAxis();
+	if (inputManager->IsKeyDown(SDL_SCANCODE_D)) {
+		camera.Translate(glm::vec3(1, 0, 1) * camera.xAxis() *  0.1f);
+	}
+	if (inputManager->IsKeyDown(SDL_SCANCODE_A)) {
+		camera.Translate(glm::vec3(1, 0, 1) * camera.xAxis() * -0.1f);
+	}
+
+	// YAXIS MOVEMENT
+	if (inputManager->IsKeyDown(SDL_SCANCODE_E)) {
+		camera.Translate(glm::vec3(0, 1, 0) *  0.1f);
+	}
+	if (inputManager->IsKeyDown(SDL_SCANCODE_Q)) {
+		camera.Translate(glm::vec3(0, 1, 0) * -0.1f);
+	}
+
+	// ZAXIS MOVEMENT
+	glm::vec3 zAxis = camera.zAxis();
+	if (inputManager->IsKeyDown(SDL_SCANCODE_W)) {
+		camera.Translate(glm::vec3(1, 0, 1) * zAxis *  0.1f);
+	}
+	if (inputManager->IsKeyDown(SDL_SCANCODE_S)) {
+		camera.Translate(glm::vec3(1, 0, 1) * zAxis * -0.1f);
+	}
+
+	ComputePart(0, 0);
+	
+	image->update();
+}
+
+void RaytracerGame::ComputePart(int x, int y)
+{
+	// can use localPosition, since there is no scenegraph in the raytracer
 	glm::vec3 xAxis = camera.xAxis();
 	glm::vec3 yAxis = camera.yAxis();
 	glm::vec3 zAxis = camera.zAxis();
-	glm::vec3 topleft = zAxis * focalLength + 
-						xAxis * -0.5f + 
-						yAxis * 0.5f;
+	glm::vec3 topleft =
+		camera.GetLocalPosition() +
+		xAxis * -0.5f +
+		yAxis * 0.5f +
+		zAxis * focalLength;
 
 	// compute interval per pixel
 	glm::vec3 xInterval = xAxis * (1.0f / resolutionX);
@@ -70,18 +112,44 @@ void RaytracerGame::update()
 	RGBA8 color;
 	glm::vec3 target;
 
-	for (int y = 0; y < resolutionY; y++) {
-		// change target
-		target = topleft + (float)y * yInterval;
+	if (debuggerEnabled) {
+		debug->clear();
 
-		for (int x = 0; x < resolutionX; x++) {
-			ray.SetTarget(target);
-			TextureEditor::drawPixel(image, x, y, _scene.Trace(ray, 0).toRGBA8());
+		RGBA8 color;
+		for (int y = 0; y < resolutionY; y++) {
+			// change target
+			target = topleft + (float)y * yInterval;
 
-			// move to target a little along the x-axis in the camera's localspace
-			target += xInterval;
+			for (int x = 0; x < resolutionX; x++) {
+				ray.SetTarget(target);
+				if (ray.d.y == 0.0f && x % 20 == 0) {
+					color = _scene.TraceAndDebug(debug, ray, 0).toRGBA8();
+				}
+				else {
+					color = _scene.Trace(ray, 0).toRGBA8();
+				}
+				TextureEditor::drawPixel(image, x, y, color);
+
+				// move to target a little along the x-axis in the camera's localspace
+				target += xInterval;
+			}
+		}
+
+		_scene.DrawDebug(debug);
+		debug->update();
+	}
+	else {
+		for (int y = 0; y < resolutionY; y++) {
+			// change target
+			target = topleft + (float)y * yInterval;
+
+			for (int x = 0; x < resolutionX; x++) {
+				ray.SetTarget(target);
+				TextureEditor::drawPixel(image, x, y, _scene.Trace(ray, 0).toRGBA8());
+
+				// move to target a little along the x-axis in the camera's localspace
+				target += xInterval;
+			}
 		}
 	}
-
-	image->update();
 }

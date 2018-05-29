@@ -20,6 +20,7 @@ public:
 		r.o = origin;
 		r.length = glm::length(direction);
 		r.d = direction / r.length;
+		return r;
 	}
 
 	Ray() {}
@@ -33,5 +34,14 @@ public:
 		d = target - o;
 		length = glm::length(d);
 		d /= length;
+	}
+
+	Ray reflection(glm::vec3 origin, glm::vec3 normal) {
+		glm::vec3 direction = d - normal * (2.0f * glm::dot(d, normal));
+		return Ray::OriginDirection(origin, direction);
+	}
+
+	void ApplyOffset() {
+		o += 0.01f * d;
 	}
 };

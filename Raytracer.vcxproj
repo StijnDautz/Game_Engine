@@ -92,7 +92,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>SDL2main.lib;SDL2.lib;opengl32.lib;glew32.lib;Engine.lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>SDL2main.lib;SDL2.lib;opengl32.lib;glew32.lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ColoredObj.h" />
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="Engine\Color.h" />
     <ClInclude Include="Engine\Game.h" />
     <ClInclude Include="Engine\InputManager.h" />

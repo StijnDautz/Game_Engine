@@ -11,6 +11,7 @@ public:
 	float GetHitLength(Ray ray) override;
 	glm::vec2 GetUv(glm::vec3 p) override { return glm::vec2(); }
 	glm::vec3 GetNormal(glm::vec3 p) override { return glm::normalize(p - center); }
+	void DrawDebug(Texture* texture);
 
 private:
 	glm::vec3 center;
