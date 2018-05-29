@@ -22,6 +22,10 @@ void InputManager::Update()
 			break;
 		case SDL_KEYUP: setKeyPressed(evnt.button.button, false);
 			break;
+		case SDL_MOUSEMOTION:
+			newMouse.x = evnt.motion.x;
+			newMouse.y = evnt.motion.y;
+			break;
 		}
 	}
 }
@@ -34,4 +38,5 @@ bool InputManager::IsKeyDown(Uint8 key)
 void InputManager::CopyNewToOld()
 {
 	_previousKeyMap = _keyMap;
+	oldMouse = newMouse;
 }

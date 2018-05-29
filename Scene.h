@@ -19,7 +19,10 @@ public:
 	void AddLight(Light l) { _lights.push_back(l); }
 	void DrawDebug(Texture * texture);
 
+
 private:
 	std::vector<ColoredObj> _objects;
 	std::vector<Light> _lights;
+
+	void DrawRay(Texture * texture, Ray ray, int depth);
 };

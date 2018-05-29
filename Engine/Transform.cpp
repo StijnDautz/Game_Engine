@@ -6,9 +6,16 @@ void Transform::Translate(glm::vec3 translation)
 	hasChanged = true;
 }
 
-void Transform::Rotate(float angle, glm::vec3 axes)
+void Transform::Rotate(glm::vec3 rotation)
 {
-	glm::rotate(_localQuat, angle, axes);
+	eulerAngles += rotation;
+	glm::quat x = glm::angleAxis(glm::radians(eulerAngles.x), glm::vec3(1, 0, 0));
+	glm::quat y = glm::angleAxis(glm::radians(eulerAngles.y), glm::vec3(0, 1, 0));
+	glm::quat z = glm::angleAxis(glm::radians(eulerAngles.z), glm::vec3(0, 0, 1));
+	
+	_localQuat = x * y;
+	_localQuat = glm::normalize(_localQuat);
+
 	hasChanged = true;
 }
 
@@ -16,6 +23,15 @@ void Transform::Scale(float scale)
 {
 	_localScale += scale;
 	hasChanged = true;
+}
+
+void Transform::Reset()
+{
+	_localTranslation = glm::vec3();
+	eulerAngles = glm::vec3();
+	_localScale = glm::vec3();
+
+	_localQuat = glm::quat();
 }
 
 glm::mat4 Transform::GetWorldMatrix(glm::mat4 parentMat)

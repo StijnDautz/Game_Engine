@@ -80,6 +80,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)deps/include/;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)deps/lib/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -116,7 +118,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -130,6 +132,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -178,10 +181,12 @@
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RaytracerGame.h" />
+    <ClInclude Include="RaytracerObj.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Engine\Transform.h" />
+    <ClInclude Include="TexturedObj.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Game.cpp" />

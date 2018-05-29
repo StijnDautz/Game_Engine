@@ -22,14 +22,17 @@ public:
 	glm::quat GetLocalRotation() { return _localQuat; }
 	
 	void Translate(glm::vec3 translation);
-	void Rotate(float angle, glm::vec3 axes);
+	void Rotate(glm::vec3 axes);
 	void Scale(float scale);
+
+	void Reset();
 
 	glm::mat4 GetWorldMatrix(glm::mat4 parentMat);
 
 private:
 	bool hasChanged;
 	glm::vec3 _localTranslation;
+	glm::vec3 eulerAngles;
 	glm::quat _localQuat;
 	glm::vec3 _localScale;
 	glm::mat4 _toWorld;

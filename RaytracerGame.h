@@ -13,6 +13,7 @@ public:
 	void init() override;
 	void update() override;
 
+
 private:
 	bool debuggerEnabled;
 	float focalLength;
@@ -24,5 +25,6 @@ private:
 	Texture* image;
 	Texture* debug;
 
-	void ComputePart(int x, int y);
+	void ComputePart(int x, glm::vec3 topleft, glm::vec3 xInterval, glm::vec3 yInterval);
+	void DebugLoop(glm::vec3 topleft, glm::vec3 xInterval, glm::vec3 yInterval);
 };

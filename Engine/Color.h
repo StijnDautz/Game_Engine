@@ -9,12 +9,6 @@ struct RGBA8 {
 	RGBA8() : r(0), g(0), b(0), a(0) {}
 	RGBA8(GLubyte R, GLubyte G, GLubyte B, GLubyte A) : r(R), g(G), b(B), a(A) {}
 
-	/*void set(RGBA32 c) {
-		r = (GLubyte)(c.color.r * 255);
-		g = (GLubyte)(c.color.g * 255);
-		b = (GLubyte)(c.color.b * 255);
-		a = (GLubyte)(c.color.a * 255);
-	}*/
 	void set(GLubyte R, GLubyte G, GLubyte B, GLubyte A) {
 		r = R;
 		g = G;
@@ -45,7 +39,7 @@ struct RGBA32 {
 
 	void operator+=(RGBA32 i) {
 		color += i.color;
-		glm::clamp(color, 0.0f, 1.0f);
+		//glm::clamp(color, 0.0f, 1.0f);
 	}
 	RGBA32* operator*=(RGBA32 i) {
 		color *= i.color;
@@ -56,6 +50,10 @@ struct RGBA32 {
 	}
 	RGBA32 operator*(float f) {
 		color *= f;
+		return *this;
+	}
+	RGBA32 operator/(float f) {
+		color /= f;
 		return *this;
 	}
 };

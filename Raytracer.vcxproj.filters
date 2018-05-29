@@ -108,6 +108,12 @@
     <ClInclude Include="Constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TexturedObj.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RaytracerObj.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Raytracer.cpp">
