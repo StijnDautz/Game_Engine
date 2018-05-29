@@ -31,4 +31,8 @@ public:
 	RGBA32 GetColorAt(glm::vec3 p) {
 		return color;
 	}
+
+	glm::vec3 GetNormal(glm::vec3 p) override {
+		return primitive->GetNormal(p);
+	}
 };

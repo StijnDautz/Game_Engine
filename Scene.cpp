@@ -28,7 +28,7 @@ RGBA32 Scene::Trace(Ray ray, int depth)
 
 	// else setup the intersection
 	intersection.p = intersection.ray.GetTarget();
-	intersection.n = intersection.obj->primitive->GetNormal(intersection.p);
+	intersection.n = intersection.obj->GetNormal(intersection.p);
 
 	// Compute the color at intersection
 	RGBA32 color;
@@ -52,7 +52,7 @@ RGBA32 Scene::Trace(Ray ray, int depth)
 			}
 
 			// compute the ray light energy and apply floating point accuracy correction
-			lighting += _lights[i].intensity * glm::dot(intersection.n, shadowray.d) - 0.0000001f;
+			lighting += _lights[i].intensity * abs(glm::dot(intersection.n, shadowray.d)) - 0.0000001f;
 
 			newLight:;
 		}

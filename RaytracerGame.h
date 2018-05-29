@@ -27,4 +27,5 @@ private:
 
 	void ComputePart(int x, glm::vec3 topleft, glm::vec3 xInterval, glm::vec3 yInterval);
 	void DebugLoop(glm::vec3 topleft, glm::vec3 xInterval, glm::vec3 yInterval);
+	void SetFocallength();
 };

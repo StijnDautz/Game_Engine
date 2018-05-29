@@ -178,6 +178,8 @@
     <ClInclude Include="Engine\Window.h" />
     <ClInclude Include="Intersection.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="NormalMapObj.h" />
+    <ClInclude Include="Plane.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RaytracerGame.h" />
@@ -187,6 +189,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Engine\Transform.h" />
     <ClInclude Include="TexturedObj.h" />
+    <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Game.cpp" />
@@ -204,11 +207,13 @@
     <ClCompile Include="Engine\TextureEditor.cpp" />
     <ClCompile Include="Engine\TextureFactory.cpp" />
     <ClCompile Include="Engine\Window.cpp" />
+    <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Raytracer.cpp" />
     <ClCompile Include="RaytracerGame.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Engine\Transform.cpp" />
+    <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

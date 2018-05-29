@@ -1,8 +1,10 @@
 #include "RaytracerGame.h"
 #include "Sphere.h"
+#include "Plane.h"
 #include "Constants.h"
 #include "ColoredObj.h"
 #include "TexturedObj.h"
+#include "NormalMapObj.h"
 
 #include "Engine\MeshFactory.h"
 #include "Engine\TextureFactory.h"
@@ -21,7 +23,9 @@ void RaytracerGame::load()
 
 void RaytracerGame::init()
 {
-	// init render assets
+	SetFocallength();
+
+	// init render assets, image and debug quad
 	Shader* vert = resourceManager->GetShader("Shaders/vertexShader.glsl");
 	Shader* frag = resourceManager->GetShader("Shaders/fragmentShader.glsl");
 	Shaderpack* basicpack = ShaderpackFactory::create(vert->id, frag->id);
@@ -37,32 +41,29 @@ void RaytracerGame::init()
 	CreateGameObject(RenderComponent(basicpack, debug, rQuad));
 
 	//init scene
-	// objects
+	// colors and textures
 	RGBA32 blue = RGBA32(glm::vec3(0.1f, 0.1f, 1.0f));
 	RGBA32 red = RGBA32(glm::vec3(0.9f, 0.1f, 0.1f));
-
-	Primitive* sphere0 = new Sphere(glm::vec3(2, 0, 4.0f), 1.0f);
-	ColoredObj* blueSphere = new ColoredObj(sphere0, blue);
-	blueSphere->diffuse = 1.0f;
-	_scene.AddObject(blueSphere);
-
-	Primitive* sphere1 = new Sphere(glm::vec3(-2.0f, 0, 5.0f), 1.0f);
-
-	Primitive* sphere2 = new Sphere(glm::vec3(0.0f, 0, 8.0f), 1.0f);
-	ColoredObj* mirrorSphere = new ColoredObj(sphere2);
-	_scene.AddObject(mirrorSphere);
-
 	Texture* knight = resourceManager->GetTexture("Textures/knight.png");
-	TexturedObj* texturedObj = new TexturedObj(sphere1, knight);
-	texturedObj->diffuse = 1.0f;
-	_scene.AddObject(texturedObj);
+
+	// primitives
+	Primitive* sphere0 = new Sphere(glm::vec3(2, 0, 4.0f), 1.0f);
+	Primitive* sphere1 = new Sphere(glm::vec3(-2.0f, 0, 5.0f), 1.0f);
+	Primitive* sphere2 = new Sphere(glm::vec3(0.0f, 0, 8.0f), 1.0f);
+	Primitive* plane0 = new Plane(glm::vec3(0, -1.0f, 0), glm::vec3(0, 1.0f, 0));
+
+	// combine elements into objects
+	//_scene.AddObject(new ColoredObj(sphere0, blue, 1.0f, 0.0f));	// blue sphere
+	//_scene.AddObject(new ColoredObj(sphere2));						// mirror sphere
+	_scene.AddObject(new TexturedObj(sphere1, knight, 1.0f, 0.0f));	// textured sphere
+	//_scene.AddObject(new ColoredObj(plane0, red, 1.0f, 0.0f));
 
 	// lights
-	_scene.AddLight(Light(glm::vec3(-3.0f, 0.0f, 5.0f), 1.0f));
+	_scene.AddLight(Light(glm::vec3(-5.0f, 0.0f, 5.0f), 1.0f));
 	_scene.AddLight(Light(glm::vec3( 3.0f, 0.0f, 5.0f), 1.0f));
-	_scene.AddLight(Light(glm::vec3(0.0f, 0.0f, -3.0f), 1.0f));
-	_scene.AddLight(Light(glm::vec3(0.0f, 0.0f, 8.0f), 1.0f));
-	_scene.AddLight(Light(glm::vec3(0.0f, 10.0f, 2.0f), 1.0f));
+	//_scene.AddLight(Light(glm::vec3(0.0f, 0.0f, -3.0f), 1.0f));
+	//_scene.AddLight(Light(glm::vec3(0.0f, 0.0f, 8.0f), 1.0f));
+	//_scene.AddLight(Light(glm::vec3(0.0f, 10.0f, 2.0f), 1.0f));
 }
 
 void RaytracerGame::update()
@@ -108,10 +109,10 @@ void RaytracerGame::update()
 
 	// ROTATION
 	glm::vec2 move = inputManager->GetMouseMovement();
-	glm::vec3 pitch = camera.xAxis() * glm::vec3(1, 0, 0) * move.y * 0.3f;
+	//glm::vec3 pitch = camera.xAxis() * glm::vec3(1, 0, 0) * move.y * 0.3f;
 	glm::vec3 yaw = glm::vec3(0, 1, 0) * move.x * 0.3f;
 
-	camera.Rotate(yaw + pitch);// glm::vec3(move.y * 0.3f, move.x * 0.3f, 0));
+	camera.Rotate(yaw);// +pitch);
 
 	// can use localPosition, since there is no scenegraph in the raytracer
 	glm::vec3 topleft =
@@ -221,4 +222,10 @@ void RaytracerGame::DebugLoop(glm::vec3 topleft, glm::vec3 xInterval, glm::vec3 
 
 	_scene.DrawDebug(debug);
 	debug->update();
+}
+
+void RaytracerGame::SetFocallength()
+{
+		float halfFOV = FOV * 0.5f;
+		focalLength = 0.5f / std::tan(glm::radians(halfFOV));
 }

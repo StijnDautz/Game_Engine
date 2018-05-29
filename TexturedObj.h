@@ -25,6 +25,9 @@ public:
 	RGBA32 GetColorAt(glm::vec3 p) override {
 		glm::vec2 uv = primitive->GetUv(p);
 		return texture->GetColorAt32(uv.x * texture->width, uv.y * texture->height);
-		//return (int)(p.x + p.y - p.z - 1) % 2 ? RGBA32(glm::vec3(0.6f, 0.5f, 0.1f)) : RGBA32(glm::vec3(0.8f, 0.8f, 0.8f));
 	}
-};
+
+	glm::vec3 GetNormal(glm::vec3 p) override {
+		return primitive->GetNormal(p);
+	}
+}; 
