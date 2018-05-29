@@ -34,6 +34,15 @@ float Sphere::GetHitLength(Ray ray) {
 	return projection - glm::sqrt(radiusSquared - D);
 }
 
+glm::vec2 Sphere::GetUv(glm::vec3 p)
+{
+	glm::vec3 n = p - center;
+	float length = glm::length(n);
+	float u = 0.5f + std::atan2(n.z, n.x) / PI2;
+	float v = 0.5f - std::asin(n.y) / PI;
+	return glm::vec2(u, v);
+}
+
 void Sphere::DrawDebug(Texture * texture)
 {
 	glm::vec3 textureCoords = glm::vec3(center.x, 0, center.z);
@@ -58,19 +67,3 @@ float t0 = (-b + sqrtD) / (2 * a);
 float t1 = (-b - sqrtD) / (2 * a);
 return t0 < t1 ? t0 : t1;
 }*/
-
-/*
-glm::vec3 toCenter = center - ray.o;
-float toCenterSquared = glm::dot(toCenter, toCenter);
-float projection = glm::dot(ray.d, toCenter);
-if (projection < 0) {
-return RAYLENGTHCAP;
-}
-float projectionSquared = glm::dot(projection, projection);
-float D = toCenterSquared - projectionSquared;
-if (D > radiusSquared) {
-return RAYLENGTHCAP;
-}
-
-return projection - glm::sqrt(radiusSquared - D);
-*/

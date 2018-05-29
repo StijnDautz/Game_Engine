@@ -1,6 +1,8 @@
 #include "RaytracerGame.h"
 #include "Sphere.h"
 #include "Constants.h"
+#include "ColoredObj.h"
+#include "TexturedObj.h"
 
 #include "Engine\MeshFactory.h"
 #include "Engine\TextureFactory.h"
@@ -12,6 +14,7 @@
 
 void RaytracerGame::load()
 {	
+	resourceManager->LoadTexture("Textures/knight.png");
 	resourceManager->LoadShader(GL_VERTEX_SHADER, "Shaders/vertexShader.glsl");
 	resourceManager->LoadShader(GL_FRAGMENT_SHADER, "Shaders/fragmentShader.glsl");	
 }
@@ -39,24 +42,27 @@ void RaytracerGame::init()
 	RGBA32 red = RGBA32(glm::vec3(0.9f, 0.1f, 0.1f));
 
 	Primitive* sphere0 = new Sphere(glm::vec3(2, 0, 4.0f), 1.0f);
-	ColoredObj blueSphere = ColoredObj(sphere0, blue);
-	blueSphere.diffuse = 1.0f;
+	ColoredObj* blueSphere = new ColoredObj(sphere0, blue);
+	blueSphere->diffuse = 1.0f;
 	_scene.AddObject(blueSphere);
 
 	Primitive* sphere1 = new Sphere(glm::vec3(-2.0f, 0, 5.0f), 1.0f);
-	ColoredObj dieletricSphere = ColoredObj(sphere1, red);
-	dieletricSphere.diffuse = 0.5f;
-	dieletricSphere.specular = 0.5f;
-	_scene.AddObject(dieletricSphere);
 
 	Primitive* sphere2 = new Sphere(glm::vec3(0.0f, 0, 8.0f), 1.0f);
-	ColoredObj mirrorSphere = ColoredObj(sphere2);
+	ColoredObj* mirrorSphere = new ColoredObj(sphere2);
 	_scene.AddObject(mirrorSphere);
 
+	Texture* knight = resourceManager->GetTexture("Textures/knight.png");
+	TexturedObj* texturedObj = new TexturedObj(sphere1, knight);
+	texturedObj->diffuse = 1.0f;
+	_scene.AddObject(texturedObj);
+
 	// lights
-	_scene.AddLight(Light(glm::vec3(-1.0f, 0.0f, 2.0f), 1.0f));
-	_scene.AddLight(Light(glm::vec3( 4.0f, 0.0f, 4.0f), 1.0f));
-	camera.Rotate(glm::vec3(0, 0, 0));
+	_scene.AddLight(Light(glm::vec3(-3.0f, 0.0f, 5.0f), 1.0f));
+	_scene.AddLight(Light(glm::vec3( 3.0f, 0.0f, 5.0f), 1.0f));
+	_scene.AddLight(Light(glm::vec3(0.0f, 0.0f, -3.0f), 1.0f));
+	_scene.AddLight(Light(glm::vec3(0.0f, 0.0f, 8.0f), 1.0f));
+	_scene.AddLight(Light(glm::vec3(0.0f, 10.0f, 2.0f), 1.0f));
 }
 
 void RaytracerGame::update()
@@ -102,7 +108,10 @@ void RaytracerGame::update()
 
 	// ROTATION
 	glm::vec2 move = inputManager->GetMouseMovement();
-	camera.Rotate(glm::vec3(move.y * 0.3f, move.x * 0.3f, 0));
+	glm::vec3 pitch = camera.xAxis() * glm::vec3(1, 0, 0) * move.y * 0.3f;
+	glm::vec3 yaw = glm::vec3(0, 1, 0) * move.x * 0.3f;
+
+	camera.Rotate(yaw + pitch);// glm::vec3(move.y * 0.3f, move.x * 0.3f, 0));
 
 	// can use localPosition, since there is no scenegraph in the raytracer
 	glm::vec3 topleft =

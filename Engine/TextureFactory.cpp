@@ -44,5 +44,5 @@ Texture * TextureFactory::createFromFile(std::string filePath)
 {
 	std::vector<unsigned char> pixels; int w, h;
 	pixels = LoadPixelsFromFile(filePath.c_str(), w, h);
-	return create(pixels, w, h);
+return create(pixels, w, h);
 }

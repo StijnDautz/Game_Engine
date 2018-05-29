@@ -22,6 +22,11 @@ public:
 		diffuse = 0.0f;
 		specular = 0.0f;
 	}
+	ColoredObj(Primitive* p, RGBA32 c, float d, float s) : color(c) {
+		primitive = p;
+		diffuse = d;
+		specular = s;
+	}
 
 	RGBA32 GetColorAt(glm::vec3 p) {
 		return color;

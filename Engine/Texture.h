@@ -3,6 +3,7 @@
 
 #include <GL\glew.h>
 #include <vector>
+#include "Color.h"
 
 struct Texture {
 	GLuint id;
@@ -31,5 +32,15 @@ struct Texture {
 		for (int i = 0; i < pixels.size(); i++) {
 			pixels[i] = 0;
 		}
+	}
+
+	RGBA8 GetColorAt8(int x, int y) {
+		int offset = y * width + x;
+		return RGBA8(pixels[offset], pixels[offset + 1], pixels[offset + 2], pixels[offset + 3]);
+	}
+	RGBA32 GetColorAt32(int x, int y) {
+		int offset = y * width * 4 + x * 4;
+		float i = 1 / 255.0f;
+		return RGBA32(glm::vec3(pixels[offset] * i, pixels[offset + 1] * i, pixels[offset + 2] * i));
 	}
 };

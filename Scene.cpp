@@ -12,7 +12,7 @@ RGBA32 Scene::Trace(Ray ray, int depth)
 
 	float length;
 	for (int i = 0; i < _objects.size(); i++) {
-		length = _objects[i].primitive->GetHitLength(ray);
+		length = _objects[i]->primitive->GetHitLength(ray);
 		
 		// if there was no intersection GetHitLength = RAYLENGTHCAP
 		if (length < intersection.ray.length) {
@@ -28,12 +28,12 @@ RGBA32 Scene::Trace(Ray ray, int depth)
 
 	// else setup the intersection
 	intersection.p = intersection.ray.GetTarget();
-	intersection.n = intersection.obj.primitive->GetNormal(intersection.p);
+	intersection.n = intersection.obj->primitive->GetNormal(intersection.p);
 
 	// Compute the color at intersection
 	RGBA32 color;
-	float diffuse = intersection.obj.diffuse;
-	float specular = intersection.obj.specular;
+	float diffuse = intersection.obj->diffuse;
+	float specular = intersection.obj->specular;
 
 	// DIFFUSE
 	if (diffuse > 0) {
@@ -46,7 +46,7 @@ RGBA32 Scene::Trace(Ray ray, int depth)
 			// add lighting if ray can hit the intersection
 			shadowray.SetTarget(_lights[i].p);
 			for (j = 0; j < _objects.size(); j++) {
-				if (_objects[j].primitive->Intersects(shadowray)) {
+				if (_objects[j]->primitive->Intersects(shadowray)) {
 					goto newLight;
 				}
 			}
@@ -62,12 +62,11 @@ RGBA32 Scene::Trace(Ray ray, int depth)
 		}
 
 		// apply total lightning to diffuse
-		color += intersection.obj.GetColorAt(intersection.p) * (lighting * diffuse);
+		color += intersection.obj->GetColorAt(intersection.p) * (lighting * diffuse);
 	}
 
 	// SPECULAR
 	if (specular > 0 && ++depth < DEPTHCAP) {
-		// TODO should I add an offset?
 		color += Trace(ray.reflection(intersection.p, intersection.n), depth) * specular;
 	}
 
@@ -84,7 +83,7 @@ RGBA32 Scene::TraceAndDebug(Texture* texture, Ray ray, int depth)
 
 	float length;
 	for (int i = 0; i < _objects.size(); i++) {
-		length = _objects[i].primitive->GetHitLength(ray);
+		length = _objects[i]->primitive->GetHitLength(ray);
 
 		// if there was no intersection GetHitLength = RAYLENGTHCAP
 		if (length < intersection.ray.length) {
@@ -104,12 +103,12 @@ RGBA32 Scene::TraceAndDebug(Texture* texture, Ray ray, int depth)
 
 	// else setup the intersection
 	intersection.p = intersection.ray.GetTarget();
-	intersection.n = intersection.obj.primitive->GetNormal(intersection.p);
+	intersection.n = intersection.obj->primitive->GetNormal(intersection.p);
 
 	// Compute the color at intersection
 	RGBA32 color;
-	float diffuse = intersection.obj.diffuse;
-	float specular = intersection.obj.specular;
+	float diffuse = intersection.obj->diffuse;
+	float specular = intersection.obj->specular;
 
 	// DIFFUSE
 	if (diffuse > 0) {
@@ -123,7 +122,7 @@ RGBA32 Scene::TraceAndDebug(Texture* texture, Ray ray, int depth)
 			shadowray.SetTarget(_lights[i].p);
 			for (j = 0; j < _objects.size(); j++) {
 				DrawRay(texture, shadowray, depth);
-				if (_objects[j].primitive->Intersects(shadowray)) {
+				if (_objects[j]->primitive->Intersects(shadowray)) {
 					goto newLight;
 				}
 			}
@@ -138,7 +137,7 @@ RGBA32 Scene::TraceAndDebug(Texture* texture, Ray ray, int depth)
 		}
 
 		// apply total lightning to diffuse
-		color += intersection.obj.GetColorAt(intersection.p) * (lighting * diffuse);
+		color += intersection.obj->GetColorAt(intersection.p) * (lighting * diffuse);
 
 	newLight:;
 	}
@@ -146,7 +145,6 @@ RGBA32 Scene::TraceAndDebug(Texture* texture, Ray ray, int depth)
 	// SPECULAR
 	if (specular > 0 && ++depth < DEPTHCAP) {
 		Ray reflection = ray.reflection(intersection.p, intersection.n);
-		reflection.ApplyOffset();
 		color += TraceAndDebug(texture, reflection, depth) * specular;
 	}
 
@@ -157,7 +155,7 @@ RGBA32 Scene::TraceAndDebug(Texture* texture, Ray ray, int depth)
 void Scene::DrawDebug(Texture * texture)
 {
 	for (int i = 0; i < _objects.size(); i++) {
-		_objects[i].primitive->DrawDebug(texture);
+		_objects[i]->primitive->DrawDebug(texture);
 	}
 }
 
