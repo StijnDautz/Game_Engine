@@ -5,11 +5,12 @@
 class Plane : public Primitive
 {
 public:
-	Plane(glm::vec3 _p, glm::vec3 _n) : p(_p), n(_n) {
+	Plane(glm::vec3 point, glm::vec3 normal, glm::vec3 tangent) : p(point), n(normal), t(tangent) {
 		float l = glm::length(p);
 		if (p.x == 0 || p.y == l || p.z == l) {
 			fatalError("point on plane cannot have 2x an 0.0f attribute");
 		}
+		b = glm::cross(t, n);
 	}
 	~Plane() {}
 
@@ -18,6 +19,8 @@ public:
 	glm::vec3 GetNormal(glm::vec3 p) override { return n; }
 
 private:
-	glm::vec3 p;
-	glm::vec3 n;
+	glm::vec3 p;	// point
+	glm::vec3 n;	// normal
+	glm::vec3 t;	// tangent
+	glm::vec3 b;	// bitangent
 };

@@ -16,7 +16,5 @@ float Plane::GetHitLength(Ray ray)
 
 glm::vec2 Plane::GetUv(glm::vec3 _point) 
 {
-	glm::vec3 u = glm::normalize(_point);
-	glm::vec3 v = glm::cross(n, u);
-	return glm::vec2(glm::dot(u, _point), glm::dot(v, _point));
+	return glm::vec2(glm::dot(t, _point), glm::dot(b, _point));
 }

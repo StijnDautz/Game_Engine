@@ -3,7 +3,7 @@
 
 struct Light {
 	glm::vec3 p;
-	float intensity;
+	glm::vec3 intensity;
 
-	Light(glm::vec3 P, float i) : p(P), intensity(i) {}
+	Light(glm::vec3 P, glm::vec3 i) : p(P), intensity(i) {}
 };

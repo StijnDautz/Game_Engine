@@ -31,6 +31,9 @@ struct RGBA32 {
 		color.b = B;
 		color.a = A;
 	}
+	void clamp() {
+		color = glm::clamp(color, glm::vec4(), glm::vec4(1.0f));
+	}
 
 	RGBA8 toRGBA8() {
 		color *= 255.0f;
@@ -44,6 +47,10 @@ struct RGBA32 {
 	RGBA32* operator*=(RGBA32 i) {
 		color *= i.color;
 		return this;
+	}
+	RGBA32 operator*(RGBA32 i) {
+		color *= i.color;
+		return *this;
 	}
 	void operator*=(float f) {
 		color *= f;

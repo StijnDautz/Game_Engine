@@ -39,7 +39,7 @@ struct Texture {
 		return RGBA8(pixels[offset], pixels[offset + 1], pixels[offset + 2], pixels[offset + 3]);
 	}
 	RGBA32 GetColorAt32(int x, int y) {
-		int offset = y * width * 4 + x * 4;
+		int offset = (y * width * 4 + x * 4) % pixels.size();
 		float i = 1 / 255.0f;
 		return RGBA32(glm::vec3(pixels[offset] * i, pixels[offset + 1] * i, pixels[offset + 2] * i));
 	}

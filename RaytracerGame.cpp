@@ -2,9 +2,7 @@
 #include "Sphere.h"
 #include "Plane.h"
 #include "Constants.h"
-#include "ColoredObj.h"
-#include "TexturedObj.h"
-#include "NormalMapObj.h"
+#include "MaterialComponent.h"
 
 #include "Engine\MeshFactory.h"
 #include "Engine\TextureFactory.h"
@@ -17,6 +15,10 @@
 void RaytracerGame::load()
 {	
 	resourceManager->LoadTexture("Textures/knight.png");
+	resourceManager->LoadTexture("Textures/planetdiffuse.png");
+	resourceManager->LoadTexture("Textures/planetnormal.png");
+	resourceManager->LoadTexture("Textures/streetnormal.png");
+
 	resourceManager->LoadShader(GL_VERTEX_SHADER, "Shaders/vertexShader.glsl");
 	resourceManager->LoadShader(GL_FRAGMENT_SHADER, "Shaders/fragmentShader.glsl");	
 }
@@ -43,27 +45,64 @@ void RaytracerGame::init()
 	//init scene
 	// colors and textures
 	RGBA32 blue = RGBA32(glm::vec3(0.1f, 0.1f, 1.0f));
-	RGBA32 red = RGBA32(glm::vec3(0.9f, 0.1f, 0.1f));
+	RGBA32 lightgrey = RGBA32(glm::vec3(0.9f, 0.9f, 0.9f));
 	Texture* knight = resourceManager->GetTexture("Textures/knight.png");
+	Texture* planetdiffuse = resourceManager->GetTexture("Textures/planetdiffuse.png");
+	Texture* planetnormal = resourceManager->GetTexture("Textures/planetnormal.png");
+	Texture* streetnormal = resourceManager->GetTexture("Textures/streetnormal.png");
 
 	// primitives
-	Primitive* sphere0 = new Sphere(glm::vec3(2, 0, 4.0f), 1.0f);
-	Primitive* sphere1 = new Sphere(glm::vec3(-2.0f, 0.0f, 5.0f), 1.0f);
-	Primitive* sphere2 = new Sphere(glm::vec3(0.0f, 0, 8.0f), 1.0f);
-	Primitive* plane0 = new Plane(glm::vec3(1.0f, -1.0f, 1.0f), glm::vec3(0, 1.0f, 0));
+	Primitive* sphere0 = new Sphere(glm::vec3(-1.4f, 0.4f, 1.6f), 1.0f);
+	Primitive* sphere1 = new Sphere(glm::vec3(3.0f, 0.0f, 5.0f), 0.6f);
+	Primitive* sphere2 = new Sphere(glm::vec3(0.3f, 0, 0.0f), 1.0f);
+	Primitive* plane0 = new Plane(glm::vec3(1.0f, -1.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	Primitive* plane1 = new Plane(glm::vec3(3.0f, 1.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
 
 	// combine elements into objects
-	_scene.AddObject(new ColoredObj(sphere0, blue, 1.0f, 0.0f));	// blue sphere
-	_scene.AddObject(new ColoredObj(sphere2));						// mirror sphere
-	_scene.AddObject(new TexturedObj(sphere1, knight, 1.0f, 0.0f));	// textured sphere
-	_scene.AddObject(new ColoredObj(plane0, red, 0.8f, 0.2f));		// dielectic plane
+	//_scene.AddObject(new ColoredObj(plane1));	// blue sphere
+	//_scene.AddObject(new ColoredObj(sphere2));						// mirror sphere
+	//_scene.AddObject(new TexturedObj(sphere1, knight, 1.0f, 0.0f));	// textured sphere
+	//_scene.AddObject(new NormalMapObj(sphere0, lightgrey, planetnormal, 0.8f, 0.2f));	// dielectic plane
+	_scene.AddObject(new RaytracerObj(
+		plane0,
+		new TextureMaterial(plane0, knight),
+		new TextureNormal(plane0, streetnormal),
+		0.3f, 0.7f));
+	_scene.AddObject(new RaytracerObj(
+		plane1,
+		new ColorMaterial(lightgrey),
+		new PrimitiveNormal(plane1),
+		0.0f, 1.0f));
+	_scene.AddObject(new RaytracerObj(
+		sphere0, 
+		new TextureMaterial(sphere0, planetdiffuse), 
+		new TextureNormal(sphere0, planetnormal), 
+		1.0f, 0.0f));
+	_scene.AddObject(new RaytracerObj(
+		sphere1,
+		new ColorMaterial(blue),
+		new PrimitiveNormal(sphere1),
+		1.0, 0.0f));
+	_scene.AddObject(new RaytracerObj(
+		sphere2,
+		new TextureMaterial(sphere2, knight),
+		new PrimitiveNormal(sphere2),
+		0.5f, 0.5f));
 
 	// lights
-	_scene.AddLight(Light(glm::vec3(0.0f, 0.0f, 5.0f), 1.0f));
-	_scene.AddLight(Light(glm::vec3( 3.0f, 3.0f, 5.0f), 1.0f));
-	_scene.AddLight(Light(glm::vec3(0.0f, 0.0f, -3.0f), 1.0f));
-	_scene.AddLight(Light(glm::vec3(0.0f, 0.0f, 8.0f), 1.0f));
-	_scene.AddLight(Light(glm::vec3(0.0f, 10.0f, 2.0f), 1.0f));
+	glm::vec3 white = glm::vec3(1.0f, 1.0f, 1.0f);
+	glm::vec3 green = glm::vec3(0.2f, 0.6f, 0.2f);
+	_scene.AddLight(Light(glm::vec3(-2.0f, 0.0f, -1.0f), white));
+	_scene.AddLight(Light(glm::vec3(1.0f, 0.0f, 5.0f), white));
+	_scene.AddLight(Light(glm::vec3(4.0f, 0.0f, 6.0f), white));
+	_scene.AddLight(Light(glm::vec3(2.0f, 0.0f, 3.0f), white));
+	_scene.AddLight(Light(glm::vec3(2.0f, 0.0f, 0.0f), white));
+	_scene.AddLight(Light(glm::vec3(1.8f, -0.5f, 2.0f), white));
+
+	// set camera to a beautiful spot :)
+	camera.Rotate(glm::vec3(0.0f, 200.0f, 0.0f));
+	camera.Translate(glm::vec3(2.5f, -0.2f, 6.0f));
 }
 
 void RaytracerGame::update()

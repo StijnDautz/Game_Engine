@@ -40,7 +40,7 @@ RGBA32 Scene::Trace(Ray ray, int depth)
 	if (diffuse > 0) {
 		// compute total lighting
 		Ray shadowray = Ray(intersection.p);
-		float lighting = 0.0f;
+		RGBA32 lighting = RGBA32();
 		float dot;
 		float attenuation;
 
@@ -48,7 +48,7 @@ RGBA32 Scene::Trace(Ray ray, int depth)
 		for (int i = 0; i < _lights.size(); i++) {
 			// add lighting if ray can hit the intersection
 			shadowray.SetTarget(_lights[i].p);
-
+			
 			attenuation = 1.0f / (shadowray.length * shadowray.length);
 			if (attenuation < 0.0001f) {
 				goto newLight;
@@ -61,22 +61,16 @@ RGBA32 Scene::Trace(Ray ray, int depth)
 				}
 			}
 
-			if (dot < 0) {
-				fatalError("Light could hit the intersection from behind, dot: ");
-			}
-
 			// compute the ray light energy and apply floating point accuracy correction
-			lighting += attenuation * _lights[i].intensity * dot - 0.0000001f; // should this be abs though...?????
+			lighting += attenuation * _lights[i].intensity * dot - 0.0000001f;
 
 			newLight:;
 		}
 
-		if (lighting > 1) {
-			lighting = 1;
-		}
+		lighting.clamp();
 
 		// apply total lightning to diffuse
-		color += intersection.obj->GetColorAt(intersection.p) * (lighting * diffuse);
+		color += intersection.obj->GetColorAt(intersection.p) * lighting * diffuse;
 	}
 
 	// SPECULAR
@@ -131,7 +125,7 @@ RGBA32 Scene::TraceAndDebug(Texture* texture, Ray ray, int depth)
 	if (diffuse > 0) {
 		// compute total lighting
 		Ray shadowray = Ray(intersection.p);
-		float lighting = 0.0f;
+		RGBA32 lighting = RGBA32();
 		float attenuation;
 
 		int j;
@@ -157,12 +151,10 @@ RGBA32 Scene::TraceAndDebug(Texture* texture, Ray ray, int depth)
 		}
 
 		// make sure the lighting does exceed 1
-		if (lighting > 1) {
-			lighting = 1;
-		}
+		lighting.clamp();
 
 		// apply total lightning to diffuse
-		color += intersection.obj->GetColorAt(intersection.p) * (lighting * diffuse);
+		color += intersection.obj->GetColorAt(intersection.p) * lighting * diffuse;
 
 	newLight:;
 	}

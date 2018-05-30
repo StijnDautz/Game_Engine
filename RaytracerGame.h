@@ -6,7 +6,7 @@
 class RaytracerGame : public Game
 {
 public:
-	RaytracerGame() : debuggerEnabled(true), resolutionX(512), resolutionY(512), focalLength(1) {}
+	RaytracerGame() : debuggerEnabled(false), resolutionX(512), resolutionY(512), focalLength(1) {}
 	~RaytracerGame() {}
 
 	void load() override;

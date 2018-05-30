@@ -178,6 +178,8 @@
     <ClInclude Include="Engine\Window.h" />
     <ClInclude Include="Intersection.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="MaterialComponent.h" />
+    <ClInclude Include="NormalComponent.h" />
     <ClInclude Include="NormalMapObj.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Primitive.h" />
