@@ -2,6 +2,7 @@
 #include "Intersection.h"
 #include "Constants.h"
 
+#include "Engine\Logger.h"
 #include "Engine\TextureEditor.h"
 
 RGBA32 Scene::Trace(Ray ray, int depth)
@@ -40,19 +41,32 @@ RGBA32 Scene::Trace(Ray ray, int depth)
 		// compute total lighting
 		Ray shadowray = Ray(intersection.p);
 		float lighting = 0.0f;
+		float dot;
+		float attenuation;
 
 		int j;
 		for (int i = 0; i < _lights.size(); i++) {
 			// add lighting if ray can hit the intersection
 			shadowray.SetTarget(_lights[i].p);
+
+			attenuation = 1.0f / (shadowray.length * shadowray.length);
+			if (attenuation < 0.0001f) {
+				goto newLight;
+			}
+
+			dot = glm::dot(intersection.n, shadowray.d);
 			for (j = 0; j < _objects.size(); j++) {
-				if (_objects[j]->primitive->Intersects(shadowray)) {
+				if (_objects[j]->primitive->Intersects(shadowray, dot)) {
 					goto newLight;
 				}
 			}
 
+			if (dot < 0) {
+				fatalError("Light could hit the intersection from behind, dot: ");
+			}
+
 			// compute the ray light energy and apply floating point accuracy correction
-			lighting += _lights[i].intensity * abs(glm::dot(intersection.n, shadowray.d)) - 0.0000001f;
+			lighting += attenuation * _lights[i].intensity * dot - 0.0000001f; // should this be abs though...?????
 
 			newLight:;
 		}
@@ -67,7 +81,10 @@ RGBA32 Scene::Trace(Ray ray, int depth)
 
 	// SPECULAR
 	if (specular > 0 && ++depth < DEPTHCAP) {
-		color += Trace(ray.reflection(intersection.p, intersection.n), depth) * specular;
+		Ray reflection = ray.reflection(intersection.p, intersection.n);
+		reflection.applyOffset();
+
+		color += Trace(reflection, depth) * specular;
 	}
 
 	color.color.a = 1.0f;
@@ -115,20 +132,28 @@ RGBA32 Scene::TraceAndDebug(Texture* texture, Ray ray, int depth)
 		// compute total lighting
 		Ray shadowray = Ray(intersection.p);
 		float lighting = 0.0f;
+		float attenuation;
 
 		int j;
 		for (int i = 0; i < _lights.size(); i++) {
 			// add lighting if ray can hit the intersection
 			shadowray.SetTarget(_lights[i].p);
+
+			attenuation = 1.0f / (shadowray.length * shadowray.length);
+			if (attenuation < 0.0001f) {
+				goto newLight;
+			}
+
+			float dot = glm::dot(intersection.n, shadowray.d);
 			for (j = 0; j < _objects.size(); j++) {
 				DrawRay(texture, shadowray, depth);
-				if (_objects[j]->primitive->Intersects(shadowray)) {
+				if (_objects[j]->primitive->Intersects(shadowray, dot)) {
 					goto newLight;
 				}
 			}
 
 			// compute the ray light energy and apply floating point accuracy correction
-			lighting += _lights[i].intensity * glm::dot(intersection.n, shadowray.d) - 0.0000001f;
+			lighting += attenuation * _lights[i].intensity * dot - 0.0000001f;
 		}
 
 		// make sure the lighting does exceed 1
@@ -145,6 +170,8 @@ RGBA32 Scene::TraceAndDebug(Texture* texture, Ray ray, int depth)
 	// SPECULAR
 	if (specular > 0 && ++depth < DEPTHCAP) {
 		Ray reflection = ray.reflection(intersection.p, intersection.n);
+		reflection.applyOffset();
+
 		color += TraceAndDebug(texture, reflection, depth) * specular;
 	}
 

@@ -48,22 +48,22 @@ void RaytracerGame::init()
 
 	// primitives
 	Primitive* sphere0 = new Sphere(glm::vec3(2, 0, 4.0f), 1.0f);
-	Primitive* sphere1 = new Sphere(glm::vec3(-2.0f, 0, 5.0f), 1.0f);
+	Primitive* sphere1 = new Sphere(glm::vec3(-2.0f, 0.0f, 5.0f), 1.0f);
 	Primitive* sphere2 = new Sphere(glm::vec3(0.0f, 0, 8.0f), 1.0f);
-	Primitive* plane0 = new Plane(glm::vec3(0, -1.0f, 0), glm::vec3(0, 1.0f, 0));
+	Primitive* plane0 = new Plane(glm::vec3(1.0f, -1.0f, 1.0f), glm::vec3(0, 1.0f, 0));
 
 	// combine elements into objects
-	//_scene.AddObject(new ColoredObj(sphere0, blue, 1.0f, 0.0f));	// blue sphere
-	//_scene.AddObject(new ColoredObj(sphere2));						// mirror sphere
+	_scene.AddObject(new ColoredObj(sphere0, blue, 1.0f, 0.0f));	// blue sphere
+	_scene.AddObject(new ColoredObj(sphere2));						// mirror sphere
 	_scene.AddObject(new TexturedObj(sphere1, knight, 1.0f, 0.0f));	// textured sphere
-	//_scene.AddObject(new ColoredObj(plane0, red, 1.0f, 0.0f));
+	_scene.AddObject(new ColoredObj(plane0, red, 0.8f, 0.2f));		// dielectic plane
 
 	// lights
-	_scene.AddLight(Light(glm::vec3(-5.0f, 0.0f, 5.0f), 1.0f));
-	_scene.AddLight(Light(glm::vec3( 3.0f, 0.0f, 5.0f), 1.0f));
-	//_scene.AddLight(Light(glm::vec3(0.0f, 0.0f, -3.0f), 1.0f));
-	//_scene.AddLight(Light(glm::vec3(0.0f, 0.0f, 8.0f), 1.0f));
-	//_scene.AddLight(Light(glm::vec3(0.0f, 10.0f, 2.0f), 1.0f));
+	_scene.AddLight(Light(glm::vec3(0.0f, 0.0f, 5.0f), 1.0f));
+	_scene.AddLight(Light(glm::vec3( 3.0f, 3.0f, 5.0f), 1.0f));
+	_scene.AddLight(Light(glm::vec3(0.0f, 0.0f, -3.0f), 1.0f));
+	_scene.AddLight(Light(glm::vec3(0.0f, 0.0f, 8.0f), 1.0f));
+	_scene.AddLight(Light(glm::vec3(0.0f, 10.0f, 2.0f), 1.0f));
 }
 
 void RaytracerGame::update()

@@ -2,7 +2,7 @@
 #include "Constants.h"
 #include "Engine\TextureEditor.h"
 
-bool Sphere::Intersects(Ray ray)
+bool Sphere::Intersects(Ray ray, float angle)
 {
 	glm::vec3 toCenter = center - ray.o;
 	float toCenterSquared = glm::dot(toCenter, toCenter);
@@ -10,6 +10,7 @@ bool Sphere::Intersects(Ray ray)
 	if (projection < 0) {
 		return false;
 	}
+
 	float projectionSquared = glm::dot(projection, projection);
 	return toCenterSquared - projectionSquared <= radiusSquared;
 }

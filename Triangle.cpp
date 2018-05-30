@@ -1,7 +1,6 @@
 #include "Triangle.h"
 
-
-bool Triangle::Intersects(Ray ray)
+bool Triangle::Intersects(Ray ray, float angle)
 {
 	//Parallel:
 	if (glm::dot(normal, ray.o) == 0) return false;

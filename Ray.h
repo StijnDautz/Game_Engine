@@ -40,4 +40,8 @@ public:
 		glm::vec3 direction = d - normal * (2.0f * glm::dot(d, normal));
 		return Ray::OriginDirection(origin, direction);
 	}
+
+	void applyOffset() {
+		o = o + 0.00001f * d;
+	}
 };
