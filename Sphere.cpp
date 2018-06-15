@@ -47,8 +47,8 @@ glm::vec2 Sphere::GetUv(glm::vec3 p)
 void Sphere::DrawDebug(Texture * texture)
 {
 	glm::vec3 textureCoords = glm::vec3(center.x, 0, center.z);
-	texture->worldToTextureCoords(20, 0, 0, textureCoords);
-	TextureEditor::drawCircle(texture, textureCoords.x, textureCoords.z, radius * (512 / 20), RGBA8(120, 230, 255, 255));
+	UV uv = texture->worldToTextureCoords(20, 0, 0, textureCoords);
+	TextureEditor::drawCircle(texture, uv.u, uv.v, radius * (512 / 20), RGBA8(120, 230, 255, 255));
 }
 
 /*

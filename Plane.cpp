@@ -8,7 +8,7 @@ float Plane::GetHitLength(Ray ray)
 	{
 		float t = dot((p - ray.o), n) / denom;
 		if (t >= 0) {
-			return t; // you might want to allow an epsilon here too
+			return t;
 		}
 	}
 	return RAYLENGTHCAP;

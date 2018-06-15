@@ -5,6 +5,13 @@
 #include <vector>
 #include "Color.h"
 
+struct UV {
+	int u;
+	int v;
+
+	UV(int U, int V) : u(U), v(V) {}
+};
+
 struct Texture {
 	GLuint id;
 	int width;
@@ -21,15 +28,14 @@ struct Texture {
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	void worldToTextureCoords(int size, int cx, int cy, glm::vec3 &v) {
+	UV worldToTextureCoords(int size, int cx, int cy, glm::vec3 v) {
 		// convert world to screen coords using a 10x10 box
-		int boundary = size * 0.5f;
-		v.x = (boundary + v.x + cx) * (width / size);
-		v.z = (boundary - v.z + cy) * (height / size);
+		float boundary = size * 0.5f;
+		return UV((int)(boundary + v.x + cx) * (width / size), (int)(boundary - v.z + cy) * (height / size));
 	}
 
 	void clear() {
-		for (int i = 0; i < pixels.size(); i++) {
+		for (unsigned int i = 0; i < pixels.size(); i++) {
 			pixels[i] = 0;
 		}
 	}

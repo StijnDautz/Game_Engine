@@ -33,7 +33,7 @@ public:
 
 	glm::vec3 GetNormalAt(glm::vec3 p) override {
 		glm::vec2 uv = primitive->GetUv(p);
-		RGBA32 normals = normalmap->GetColorAt32(uv.x * normalmap->width, uv.y * normalmap->height);
+		RGBA32 normals = normalmap->GetColorAt32(uv.x * (float)normalmap->width, uv.y * (float)normalmap->height);
 		return glm::normalize(glm::vec3(normals.color.x, normals.color.y, normals.color.z));
 	}
 };

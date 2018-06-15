@@ -1,5 +1,5 @@
 #pragma once
-#include "Primitive.h";
+#include "Primitive.h"
 #include "Engine\Logger.h"
 
 class Plane : public Primitive

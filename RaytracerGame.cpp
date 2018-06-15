@@ -12,6 +12,7 @@
 #include <vector>
 #include <thread>
 
+
 void RaytracerGame::load()
 {	
 	resourceManager->LoadTexture("Textures/knight.png");
@@ -190,12 +191,11 @@ void RaytracerGame::ComputePart(int x, glm::vec3 topleft, glm::vec3 xInterval, g
 	topleft += camera.xAxis() * xStart;
 
 	// compute interval per pixel
-	glm::vec3 axInterval = xInterval / ANTIALLIASING;
-	glm::vec3 ayInterval = yInterval / ANTIALLIASING;
+	glm::vec3 axInterval = xInterval / PRECISIONRAYCAP.count;
+	glm::vec3 ayInterval = yInterval / PRECISIONRAYCAP.count;
 
 	// setup loop variables
 	Ray ray = Ray(camera.GetLocalPosition());
-	glm::vec3 target;
 
 	// DEBUGGER
 	// Has no antialliasing and multithreading
@@ -203,28 +203,15 @@ void RaytracerGame::ComputePart(int x, glm::vec3 topleft, glm::vec3 xInterval, g
 		DebugLoop(topleft, xInterval, yInterval);
 	}
 	else {
-		RGBA32 color;
-		RGBA32 tempColor;
-		float ANTIALLIASINGSQUARED = ANTIALLIASING * ANTIALLIASING;
+		glm::vec3 target;
+		RGBA32 color = BLACK;
 		for (int y = 0; y < resolutionY; y++) {
-			// change target
 			target = topleft + (float)y * yInterval;
 
 			for (int x = resXmin; x < resXmax; x++) {
-				color = RGBA32();
-				// compute ANTIALLIASINGSQUARED times the color for each pixel, using a little offset
-				for (float y1 = 0; y1 < ANTIALLIASING; y1++) {
-					for (float x1 = 0; x1 < ANTIALLIASING; x1++) {
-						ray.SetTarget(target + x1 * axInterval + y1 * ayInterval);
-						tempColor = _scene.Trace(ray, 0);
-						if (tempColor.color.x > 1 || tempColor.color.y > 1 || tempColor.color.z > 1) {
-							int p = 0;
-						}
-						color += tempColor;
-					}
-				}
+				color = _scene.MultiSampleTrace(ray, target, xInterval, yInterval, PRECISIONRAYCAP);
 
-				TextureEditor::drawPixel(image, x, y, (color / ANTIALLIASINGSQUARED).toRGBA8());
+				TextureEditor::drawPixel(image, x, y, color.toRGBA8());
 				target += xInterval;
 			}
 		}

@@ -154,7 +154,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ColoredObj.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Engine\Color.h" />
     <ClInclude Include="Engine\Game.h" />
@@ -174,13 +173,14 @@
     <ClInclude Include="Engine\Texture.h" />
     <ClInclude Include="Engine\TextureEditor.h" />
     <ClInclude Include="Engine\TextureFactory.h" />
+    <ClInclude Include="Engine\TimeManager.h" />
     <ClInclude Include="Engine\Vertex.h" />
     <ClInclude Include="Engine\Window.h" />
+    <ClInclude Include="Engine\FPSCounter.h" />
     <ClInclude Include="Intersection.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="MaterialComponent.h" />
     <ClInclude Include="NormalComponent.h" />
-    <ClInclude Include="NormalMapObj.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Ray.h" />
@@ -190,7 +190,6 @@
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Engine\Transform.h" />
-    <ClInclude Include="TexturedObj.h" />
     <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <ItemGroup>

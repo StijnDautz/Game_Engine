@@ -1,10 +1,13 @@
 #pragma once
 #include "ResourceManager.h"
 #include "InputManager.h"
+#include "TimeManager.h"
 #include "Renderer.h"
+#include "FPSCounter.h"
 
 extern ResourceManager* resourceManager;
 extern InputManager* inputManager;
+extern TimeManager* timeManager;
 
 class Game
 {
@@ -20,12 +23,13 @@ public:
 	virtual void update();
 
 	void CreateGameObject(RenderComponent rendercomp); // temporarily just the rendercomponent
-	int GetScreenWidth() { return renderer.window.width; }
-	int GetScreenHeight() { return renderer.window.height; }
+	int GetScreenWidth() { return _renderer.window.width; }
+	int GetScreenHeight() { return _renderer.window.height; }
 
 private:
-	bool playing;
+	bool _playing;
 
 	void setup();
-	Renderer renderer;
+	Renderer _renderer;
+	FPSCounter _fpscounter;
 };

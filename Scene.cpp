@@ -5,6 +5,25 @@
 #include "Engine\Logger.h"
 #include "Engine\TextureEditor.h"
 
+RGBA32 Scene::MultiSampleTrace(Ray r, glm::vec3 target, glm::vec3 xInterval, glm::vec3 yInterval, Constant c) {
+	RGBA32 color = RGBA32();
+	glm::vec3 start = target;
+
+	// subdivide the interval
+	xInterval *= c.div1count;
+	yInterval *= c.div1count;
+
+	for (float y = 0; y < c.count; y++) {
+		target = start + (y * yInterval);                            // 4x +, *
+		for (int y = 0; y < c.count; y++) {
+			r.SetTarget(target);						// is this possible without normalization???
+			color += Trace(r, 0);
+			target += xInterval;                            // x+^2 + x+ + x* + 2* x = 4 -> 26 60% less operations
+		}
+	}
+	return color * c.div1countSquared;
+}
+
 RGBA32 Scene::Trace(Ray ray, int depth)
 {
 	// find the smallest length the ray had to travel to hit an object
@@ -12,7 +31,7 @@ RGBA32 Scene::Trace(Ray ray, int depth)
 	intersection.ray.length = RAYLENGTHCAP;
 
 	float length;
-	for (int i = 0; i < _objects.size(); i++) {
+	for (unsigned int i = 0; i < _objects.size(); i++) {
 		length = _objects[i]->primitive->GetHitLength(ray);
 		
 		// if there was no intersection GetHitLength = RAYLENGTHCAP
@@ -24,7 +43,7 @@ RGBA32 Scene::Trace(Ray ray, int depth)
 
 	// return black if ray did not hit an object
 	if (intersection.ray.length == RAYLENGTHCAP) {
-		return RGBA32();
+		return BLACK;
 	}
 
 	// else setup the intersection
@@ -32,7 +51,7 @@ RGBA32 Scene::Trace(Ray ray, int depth)
 	intersection.n = intersection.obj->GetNormal(intersection.p);
 
 	// Compute the color at intersection
-	RGBA32 color;
+	RGBA32 color = BLACK;
 	float diffuse = intersection.obj->diffuse;
 	float specular = intersection.obj->specular;
 
@@ -40,12 +59,11 @@ RGBA32 Scene::Trace(Ray ray, int depth)
 	if (diffuse > 0) {
 		// compute total lighting
 		Ray shadowray = Ray(intersection.p);
-		RGBA32 lighting = RGBA32();
+		RGBA32 lighting = BLACK;
 		float dot;
 		float attenuation;
 
-		int j;
-		for (int i = 0; i < _lights.size(); i++) {
+		for (unsigned int i = 0; i < _lights.size(); i++) {
 			// add lighting if ray can hit the intersection
 			shadowray.SetTarget(_lights[i].p);
 			
@@ -55,7 +73,7 @@ RGBA32 Scene::Trace(Ray ray, int depth)
 			}
 
 			dot = glm::dot(intersection.n, shadowray.d);
-			for (j = 0; j < _objects.size(); j++) {
+			for (unsigned int j = 0; j < _objects.size(); j++) {
 				if (_objects[j]->primitive->Intersects(shadowray, dot)) {
 					goto newLight;
 				}
@@ -93,7 +111,7 @@ RGBA32 Scene::TraceAndDebug(Texture* texture, Ray ray, int depth)
 	intersection.ray.length = RAYLENGTHCAP;
 
 	float length;
-	for (int i = 0; i < _objects.size(); i++) {
+	for (unsigned int i = 0; i < _objects.size(); i++) {
 		length = _objects[i]->primitive->GetHitLength(ray);
 
 		// if there was no intersection GetHitLength = RAYLENGTHCAP
@@ -109,7 +127,7 @@ RGBA32 Scene::TraceAndDebug(Texture* texture, Ray ray, int depth)
 
 	// return black if ray did not hit an object
 	if (intersection.ray.length == RAYLENGTHCAP) {
-		return RGBA32();
+		return BLACK;
 	}
 
 	// else setup the intersection
@@ -125,11 +143,10 @@ RGBA32 Scene::TraceAndDebug(Texture* texture, Ray ray, int depth)
 	if (diffuse > 0) {
 		// compute total lighting
 		Ray shadowray = Ray(intersection.p);
-		RGBA32 lighting = RGBA32();
+		RGBA32 lighting = BLACK;
 		float attenuation;
 
-		int j;
-		for (int i = 0; i < _lights.size(); i++) {
+		for (unsigned int i = 0; i < _lights.size(); i++) {
 			// add lighting if ray can hit the intersection
 			shadowray.SetTarget(_lights[i].p);
 
@@ -139,7 +156,7 @@ RGBA32 Scene::TraceAndDebug(Texture* texture, Ray ray, int depth)
 			}
 
 			float dot = glm::dot(intersection.n, shadowray.d);
-			for (j = 0; j < _objects.size(); j++) {
+			for (unsigned int j = 0; j < _objects.size(); j++) {
 				DrawRay(texture, shadowray, depth);
 				if (_objects[j]->primitive->Intersects(shadowray, dot)) {
 					goto newLight;
@@ -173,7 +190,7 @@ RGBA32 Scene::TraceAndDebug(Texture* texture, Ray ray, int depth)
 
 void Scene::DrawDebug(Texture * texture)
 {
-	for (int i = 0; i < _objects.size(); i++) {
+	for (unsigned int i = 0; i < _objects.size(); i++) {
 		_objects[i]->primitive->DrawDebug(texture);
 	}
 }
@@ -195,5 +212,5 @@ void Scene::DrawRay(Texture* texture, Ray ray, int depth)
 	texture->worldToTextureCoords(20, 0, 0, ray.o);
 
 	// draw the debug ray
-	TextureEditor::drawLine(texture, p.x, p.z, ray.o.x, ray.o.z, depth > 0 ? REFLECTRAYCOLOR : PRIMARYRAYCOLOR);
+	TextureEditor::drawLine(texture, p.x, p.z, (int)ray.o.x, (int)ray.o.z, depth > 0 ? REFLECTRAYCOLOR : PRIMARYRAYCOLOR);
 }
