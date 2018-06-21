@@ -1,7 +1,11 @@
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
 [Bb]in/
 [Oo]bj/
-deps/
+deps/Assets
+deps/lib
+deps/include/GL
+deps/include/glm
+deps/include/SDL
 
 # mstest test results
 TestResults
