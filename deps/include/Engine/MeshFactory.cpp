@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 
+
 Mesh* MeshFactory::create(std::vector<Vertex> vertices, std::vector<GLuint> indices, GLenum usage)
 {
 	GLuint vao;
@@ -36,8 +37,9 @@ Mesh * MeshFactory::createScreenQuad(float start, float end)
 	return MeshFactory::create(vertices, indices, GL_STATIC_DRAW);
 }
 
-Mesh * MeshFactory::LoadMeshFromFile(std::string filePath)
+Mesh * MeshFactory::LoadMeshFromFile(char *filePath)
 {
+	
 	return nullptr;
 }
 
