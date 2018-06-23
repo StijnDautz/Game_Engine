@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\deps",
+    "\\deps\\include",
+    "\\deps\\include\\Engine"
   ],
-  "SelectedNode": "\\Raytracer.sln",
+  "SelectedNode": "\\Game Engine.sln",
   "PreviewInSolutionExplorer": false
 }

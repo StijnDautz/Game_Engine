@@ -9,6 +9,7 @@ class MeshFactory
 public:
 	static Mesh * create(std::vector<Vertex> vertices, std::vector<GLuint> indices, GLenum usage);
 	static Mesh * createScreenQuad(float start, float end);
+	static Mesh * LoadMeshFromFile(std::string filePath);
 	
 private:
 	static void fillVBO(std::vector<Vertex> vertices, GLenum usage);

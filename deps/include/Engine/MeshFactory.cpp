@@ -1,4 +1,7 @@
 #include "MeshFactory.h"
+#include <iostream>
+#include <sstream>
+#include <string>
 
 Mesh* MeshFactory::create(std::vector<Vertex> vertices, std::vector<GLuint> indices, GLenum usage)
 {
@@ -31,6 +34,11 @@ Mesh * MeshFactory::createScreenQuad(float start, float end)
 	};
 
 	return MeshFactory::create(vertices, indices, GL_STATIC_DRAW);
+}
+
+Mesh * MeshFactory::LoadMeshFromFile(std::string filePath)
+{
+	return nullptr;
 }
 
 void MeshFactory::fillVBO(std::vector<Vertex> vertices, GLenum usage)
