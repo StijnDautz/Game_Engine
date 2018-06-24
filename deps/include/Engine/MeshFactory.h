@@ -15,4 +15,5 @@ private:
 	static void fillVBO(std::vector<Vertex> vertices, GLenum usage);
 	static void fillIBO(std::vector<GLuint> indices, GLenum usage);
 	static void setAttribPointers();
+	static int ParseFaceParameter(std::string faceParameter);
 };

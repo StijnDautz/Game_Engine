@@ -12,13 +12,13 @@ public:
 
 	void draw();
 
-	struct triangle {
+	public struct Triangle {
 	public:
 		glm::vec3 v0;
 		glm::vec3 v1;
 		glm::vec3 v2;
 	};
-	struct quad {
+	struct Quad {
 	public:
 		glm::vec3 v0;
 		glm::vec3 v1;
@@ -27,8 +27,8 @@ public:
 	};
 
 	std::list<glm::vec3> vertices;
-	std::list<triangle> triangles;
-	std::list<quad> quads;
+	std::list<Triangle> triangles;
+	std::list<Quad> quads;
 	
 	
 };

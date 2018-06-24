@@ -1,7 +1,9 @@
 #include "MeshFactory.h"
+#include "Mesh.h"
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <vector>
 
 
 Mesh* MeshFactory::create(std::vector<Vertex> vertices, std::vector<GLuint> indices, GLenum usage)
@@ -37,9 +39,36 @@ Mesh * MeshFactory::createScreenQuad(float start, float end)
 	return MeshFactory::create(vertices, indices, GL_STATIC_DRAW);
 }
 
+int MeshFactory::ParseFaceParameter(std::string faceParameter)
+{
+	return 0;
+}
+
 Mesh * MeshFactory::LoadMeshFromFile(char *filePath)
 {
+	std::list<glm::vec3> vertices;
+	std::list<glm::vec3> normals;
+	std::list<glm::vec2> texCoords;
+
 	
+	std::string line = "This is a test line";
+
+	while (true) //line = getline(filePath)
+	{
+		std::istringstream iss(line);
+		std::vector<std::string> parameters;
+		
+		switch (parameters.)
+		{
+		case "p": //Point
+			break;
+		case "v": //Vertex
+			float x = std::stof(parameters[1]);
+			float y = std::stof(parameters[2]);
+			float z = std::stof(parameters[3]);
+			//vertices.insert(0, new glm::vec3(x, y, z));
+		}
+	}
 	return nullptr;
 }
 
@@ -73,3 +102,5 @@ void MeshFactory::setAttribPointers()
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (char*)offsetof(Vertex, uv));
 }
+
+
