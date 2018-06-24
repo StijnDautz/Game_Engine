@@ -7,12 +7,12 @@ class Mesh
 public:
 	GLuint vaoID;
 
-	Mesh(GLuint vao, char *fileName);
+	Mesh(GLuint vao);
 	~Mesh();
 
 	void draw();
 
-	public struct Triangle {
+	/*struct Triangle {
 	public:
 		glm::vec3 v0;
 		glm::vec3 v1;
@@ -28,7 +28,7 @@ public:
 
 	std::list<glm::vec3> vertices;
 	std::list<Triangle> triangles;
-	std::list<Quad> quads;
+	std::list<Quad> quads;*/
 	
 	
 };

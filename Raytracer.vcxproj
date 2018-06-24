@@ -156,6 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="OBJ_Loader.h" />
     <ClInclude Include="DemoGame.h" />
     <ClInclude Include="deps\include\Engine\Behaviour.h" />
     <ClInclude Include="deps\include\Engine\Color.h" />
