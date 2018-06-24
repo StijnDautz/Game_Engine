@@ -28,107 +28,6 @@
 //
 // Description: The namespace that holds eveyrthing that
 //	is needed and used for the OBJ Model Loader
-namespace objl
-{
-	// Structure: Vertex
-	//
-	// Description: Model Vertex object that holds
-	//	a Position, Normal, and Texture Coordinate
-	struct Vertex
-	{
-		// Position Vector
-		glm::vec3 Position;
-
-		// Normal Vector
-		glm::vec3 Normal;
-
-		// Texture Coordinate Vector
-		glm::vec2 TextureCoordinate;
-	};
-
-	struct Material
-	{
-		Material()
-		{
-			name;
-			Ns = 0.0f;
-			Ni = 0.0f;
-			d = 0.0f;
-			illum = 0;
-		}
-
-		// Material Name
-		std::string name;
-		// Ambient Color
-		glm::vec3 Ka;
-		// Diffuse Color
-		glm::vec3 Kd;
-		// Specular Color
-		glm::vec3 Ks;
-		// Specular Exponent
-		float Ns;
-		// Optical Density
-		float Ni;
-		// Dissolve
-		float d;
-		// Illumination
-		int illum;
-		// Ambient Texture Map
-		std::string map_Ka;
-		// Diffuse Texture Map
-		std::string map_Kd;
-		// Specular Texture Map
-		std::string map_Ks;
-		// Specular Hightlight Map
-		std::string map_Ns;
-		// Alpha Texture Map
-		std::string map_d;
-		// Bump Map
-		std::string map_bump;
-	};
-
-	// Structure: Mesh
-	//
-	// Description: A Simple Mesh Object that holds
-	//	a name, a vertex list, and an index list
-	struct Mesh
-	{
-		// Default Constructor
-		Mesh()
-		{
-
-		}
-		// Variable Set Constructor
-		Mesh(std::vector<Vertex>& _Vertices, std::vector<unsigned int>& _Indices)
-		{
-			Vertices = _Vertices;
-			Indices = _Indices;
-		}
-		// Mesh Name
-		std::string MeshName;
-		// Vertex List
-		std::vector<Vertex> Vertices;
-		// Index List
-		std::vector<unsigned int> Indices;
-
-		// Material
-		Material MeshMaterial;
-	};
-
-	// Namespace: Math
-	//
-	// Description: The namespace that holds all of the math
-	//	functions need for OBJL
-	namespace math
-	{
-		// Angle between 2 Vector3 Objects
-		float AngleBetweenV3(const glm::vec3 a, const glm::vec3 b)
-		{
-			float angle = glm::dot(a, b);
-			angle /= (a.length() * b.length());
-			return angle = acosf(angle);
-		}
-	}
 
 	// Namespace: Algorithm
 	//
@@ -797,7 +696,10 @@ namespace objl
 					}
 
 					// If Vertex is not an interior vertex
-					float angle = math::AngleBetweenV3(pPrev.Position - pCur.Position, pNext.Position - pCur.Position) * (180 / 3.14159265359);
+					glm::vec3 vec = pPrev.Position - pCur.Position;
+					float magnitudeSquared = glm::length(vec) * glm::length(vec);
+					float angle = glm::dot(vec, vec) / magnitudeSquared;
+					float angle = angle * (180 / 3.14159265359);
 					if (angle <= 0 && angle >= 180)
 						continue;
 

@@ -1,9 +1,10 @@
 #include "MeshFactory.h"
 #include "Mesh.h"
-#include "OBJ_Loader.h"
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <string>
+#include <GL/GL.h>
 
 
 
@@ -28,10 +29,10 @@ Mesh* MeshFactory::create(std::vector<Vertex> vertices, std::vector<GLuint> indi
 Mesh * MeshFactory::createScreenQuad(float start, float end)
 {
 	std::vector<Vertex> vertices = {
-		Vertex(glm::vec3( end  ,  1.0f, 0.0f), glm::vec2(1.0f, 1.0f)),  // vertex 0
-		Vertex(glm::vec3( start,  1.0f, 0.0f), glm::vec2(0.0f, 1.0f)),  // vertex 1
-		Vertex(glm::vec3( end  , -1.0f, 0.0f), glm::vec2(1.0f, 0.0f)),  // vertex 2
-		Vertex(glm::vec3( start, -1.0f, 0.0f), glm::vec2(0.0f, 0.0f))   // vertex 3
+		Vertex(glm::vec3(end  ,  1.0f, 0.0f), glm::vec2(1.0f, 1.0f)),  // vertex 0
+		Vertex(glm::vec3(start,  1.0f, 0.0f), glm::vec2(0.0f, 1.0f)),  // vertex 1
+		Vertex(glm::vec3(end  , -1.0f, 0.0f), glm::vec2(1.0f, 0.0f)),  // vertex 2
+		Vertex(glm::vec3(start, -1.0f, 0.0f), glm::vec2(0.0f, 0.0f))   // vertex 3
 	};
 
 	std::vector<GLuint> indices{
@@ -42,95 +43,86 @@ Mesh * MeshFactory::createScreenQuad(float start, float end)
 	return MeshFactory::create(vertices, indices, GL_STATIC_DRAW);
 }
 
-int MeshFactory::ParseFaceParameter(std::string faceParameter)
+
+glm::vec3 getFaceIndices(std::string input) 
 {
-	return 0;
-}
-
-Mesh * MeshFactory::LoadMeshFromFile(char *filePath)
-{
-	objl::Loader Loader;
-	// Load .obj File
-	bool loadout = Loader.LoadFile("box_stack.obj");
-
-	// Check to see if it loaded
-
-	// If so continue
-	if (loadout)
+	int lastIndex = 0;
+	int index = 0;
+	glm::vec3 result;
+	for (size_t i = 0; i < 3; i++)
 	{
-		// Create/Open e1Out.txt
-		std::ofstream file("e1Out.txt");
-
-		// Go through each loaded mesh and out its contents
-		for (int i = 0; i < Loader.LoadedMeshes.size(); i++)
+		lastIndex = index;
+		while (input[index] != '/') 
 		{
-			// Copy one of the loaded meshes to be our current mesh
-			objl::Mesh curMesh = Loader.LoadedMeshes[i];
-
-			// Print Mesh Name
-			file << "Mesh " << i << ": " << curMesh.MeshName << "\n";
-
-			// Print Vertices
-			file << "Vertices:\n";
-
-			// Go through each vertex and print its number,
-			//  position, normal, and texture coordinate
-			for (int j = 0; j < curMesh.Vertices.size(); j++)
-			{
-				file << "V" << j << ": " <<
-					"P(" << curMesh.Vertices[j].Position.X << ", " << curMesh.Vertices[j].Position.Y << ", " << curMesh.Vertices[j].Position.Z << ") " <<
-					"N(" << curMesh.Vertices[j].Normal.X << ", " << curMesh.Vertices[j].Normal.Y << ", " << curMesh.Vertices[j].Normal.Z << ") " <<
-					"TC(" << curMesh.Vertices[j].TextureCoordinate.X << ", " << curMesh.Vertices[j].TextureCoordinate.Y << ")\n";
-			}
-
-			// Print Indices
-			file << "Indices:\n";
-
-			// Go through every 3rd index and print the
-			//	triangle that these indices represent
-			for (int j = 0; j < curMesh.Indices.size(); j += 3)
-			{
-				file << "T" << j / 3 << ": " << curMesh.Indices[j] << ", " << curMesh.Indices[j + 1] << ", " << curMesh.Indices[j + 2] << "\n";
-			}
-
-			// Print Material
-			file << "Material: " << curMesh.MeshMaterial.name << "\n";
-			file << "Ambient Color: " << curMesh.MeshMaterial.Ka.X << ", " << curMesh.MeshMaterial.Ka.Y << ", " << curMesh.MeshMaterial.Ka.Z << "\n";
-			file << "Diffuse Color: " << curMesh.MeshMaterial.Kd.X << ", " << curMesh.MeshMaterial.Kd.Y << ", " << curMesh.MeshMaterial.Kd.Z << "\n";
-			file << "Specular Color: " << curMesh.MeshMaterial.Ks.X << ", " << curMesh.MeshMaterial.Ks.Y << ", " << curMesh.MeshMaterial.Ks.Z << "\n";
-			file << "Specular Exponent: " << curMesh.MeshMaterial.Ns << "\n";
-			file << "Optical Density: " << curMesh.MeshMaterial.Ni << "\n";
-			file << "Dissolve: " << curMesh.MeshMaterial.d << "\n";
-			file << "Illumination: " << curMesh.MeshMaterial.illum << "\n";
-			file << "Ambient Texture Map: " << curMesh.MeshMaterial.map_Ka << "\n";
-			file << "Diffuse Texture Map: " << curMesh.MeshMaterial.map_Kd << "\n";
-			file << "Specular Texture Map: " << curMesh.MeshMaterial.map_Ks << "\n";
-			file << "Alpha Texture Map: " << curMesh.MeshMaterial.map_d << "\n";
-			file << "Bump Map: " << curMesh.MeshMaterial.map_bump << "\n";
-
-			// Leave a space to separate from the next mesh
-			file << "\n";
+			index++;
 		}
-
-		// Close File
-		file.close();
+		result[i] = std::stof(input.substr(lastIndex, index));
 	}
-	// If not output an error
-	else
-	{
-		// Create/Open e1Out.txt
-		std::ofstream file("e1Out.txt");
-
-		// Output Error
-		file << "Failed to Load File. May have failed to find it or it was not an .obj file.\n";
-
-		// Close File
-		file.close();
-	}
-
-	// Exit the program
-	return nullptr;
+	return result;
 }
+
+void MeshFactory::AddMeshFromFile(Mesh mesh, std::string filePath)
+{
+	if (filePath.substr(filePath.size() - 4, 4) != ".obj") return;
+
+	std::ifstream file(filePath);
+	if (!file.is_open()) return;
+
+	Mesh::MeshObject newMeshObject;
+	
+	std::string line;
+	while (std::getline(file, line))
+	{
+		std::string inputType = line.substr(0,2);
+		if (inputType == "v ") {
+			std::istringstream v(line.substr(2));
+			glm::vec3 vertex;
+			std::string x, y, z;
+			v>>x; v >> y; v >> z;
+			vertex = glm::vec3(stof(x), stof(y), stof(z));
+			newMeshObject.vertices.push_back(vertex);
+			continue;
+		}
+		if (inputType == "vt") {
+			std::istringstream vt(line.substr(3));
+			glm::vec2 textureVertex;
+			std::string x, y, z;
+			vt >> x; vt >> y;
+			textureVertex = glm::vec2(stof(x), stof(y));
+			newMeshObject.textureVertices.push_back(textureVertex);
+			continue;
+		}
+		if (inputType == "f ") {
+			std::istringstream f(line.substr(0, 2));
+			Mesh::Triangle newTriangle;
+			std::string s1, s2, s3;
+			f >> s1; f >> s2; f >> s3;
+			glm::vec3 vertexInfo0 = getFaceIndices(s1);
+			glm::vec3 vertexInfo1 = getFaceIndices(s2);
+			glm::vec3 vertexInfo2 = getFaceIndices(s3);
+
+			newTriangle.v0 = newMeshObject.vertices[vertexInfo0.x - 1]; //-1 because indexing starts at 1
+			newTriangle.v1 = newMeshObject.vertices[vertexInfo1.x - 1]; //-1 because indexing starts at 1
+			newTriangle.v2 = newMeshObject.vertices[vertexInfo2.x - 1]; //-1 because indexing starts at 1
+			
+			newTriangle.normal = newMeshObject.normalVertices[vertexInfo0.z - 1]; //Only use vertexInfo0 as the normal is equal for all point on the triangle
+			
+			newTriangle.texCoord0 = newMeshObject.textureVertices[vertexInfo0.y - 1];
+			newTriangle.texCoord1 = newMeshObject.textureVertices[vertexInfo1.y - 1];
+			newTriangle.texCoord2 = newMeshObject.textureVertices[vertexInfo2.y - 1];
+
+			newMeshObject.triangles.push_back(newTriangle);
+			continue;
+		}
+		else 
+		{
+			continue;
+		}
+	}
+
+	mesh.meshes.push_back(newMeshObject);
+}
+
 
 void MeshFactory::fillVBO(std::vector<Vertex> vertices, GLenum usage)
 {
