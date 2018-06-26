@@ -31,7 +31,7 @@ void DemoGame::Init()
 	MeshRenderer* material = new MeshRenderer(
 		resourceManager->GetShaderpack("basic"),
 		resourceManager->GetTexture("Assets/Textures/knight.png"),
-		MeshFactory::loadMeshFromFile("C:/Users/dautz/Documents/GameDev/engine demo/Debug/Assets/Meshes/quad.obj")
+		MeshFactory::loadMeshFromFile("Debug/Assets/Meshes/quad.obj")
 	);
 	screenquad->AddComponent(material);
 	AddGameObject(screenquad);
