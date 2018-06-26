@@ -153,4 +153,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Object Include="..\..\..\..\Downloads\Tiger.obj">
+      <Filter>Source Files</Filter>
+    </Object>
+  </ItemGroup>
 </Project>

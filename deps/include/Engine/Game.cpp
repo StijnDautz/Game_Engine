@@ -56,4 +56,5 @@ void Game::setup()
 {
 	_renderer.setup();
 	inputManager->init();
+
 }

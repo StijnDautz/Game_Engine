@@ -94,28 +94,32 @@ void MeshFactory::AddMeshFromFile(Mesh mesh, std::string filePath)
 		}
 		if (inputType == "f ") {
 			std::istringstream f(line.substr(0, 2));
-			Mesh::Triangle newTriangle;
+			Mesh::VertexObject newVertexObject0;
+			Mesh::VertexObject newVertexObject1;
+			Mesh::VertexObject newVertexObject2;
+
 			std::string s1, s2, s3;
 			f >> s1; f >> s2; f >> s3;
 			glm::vec3 vertexInfo0 = getFaceIndices(s1);
 			glm::vec3 vertexInfo1 = getFaceIndices(s2);
 			glm::vec3 vertexInfo2 = getFaceIndices(s3);
 
-			newTriangle.v0 = newMeshObject.vertices[vertexInfo0.x - 1]; //-1 because indexing starts at 1
-			newTriangle.v1 = newMeshObject.vertices[vertexInfo1.x - 1]; //-1 because indexing starts at 1
-			newTriangle.v2 = newMeshObject.vertices[vertexInfo2.x - 1]; //-1 because indexing starts at 1
+			newVertexObject0.vertex = newMeshObject.vertices[vertexInfo0.x - 1]; //-1 because indexing starts at 1
+			newVertexObject1.vertex = newMeshObject.vertices[vertexInfo1.x - 1]; //-1 because indexing starts at 1
+			newVertexObject2.vertex = newMeshObject.vertices[vertexInfo2.x - 1]; //-1 because indexing starts at 1
 			
-			newTriangle.normal = newMeshObject.normalVertices[vertexInfo0.z - 1]; //Only use vertexInfo0 as the normal is equal for all point on the triangle
-			
-			newTriangle.texCoord0 = newMeshObject.textureVertices[vertexInfo0.y - 1];
-			newTriangle.texCoord1 = newMeshObject.textureVertices[vertexInfo1.y - 1];
-			newTriangle.texCoord2 = newMeshObject.textureVertices[vertexInfo2.y - 1];
+			newVertexObject0.normal = newMeshObject.normalVertices[vertexInfo0.z - 1]; //Only use vertexInfo0 as the normal is equal for all point on the triangle
+			newVertexObject0.normal = newMeshObject.normalVertices[vertexInfo1.z - 1];
+			newVertexObject0.normal = newMeshObject.normalVertices[vertexInfo2.z - 1];
 
-			newMeshObject.triangles.push_back(newTriangle);
-			continue;
-		}
-		else 
-		{
+			newVertexObject0.texCoord = newMeshObject.textureVertices[vertexInfo0.y - 1];
+			newVertexObject1.texCoord = newMeshObject.textureVertices[vertexInfo1.y - 1];
+			newVertexObject2.texCoord = newMeshObject.textureVertices[vertexInfo2.y - 1];
+
+			newMeshObject.triangles.push_back(newVertexObject0);
+			newMeshObject.triangles.push_back(newVertexObject1);
+			newMeshObject.triangles.push_back(newVertexObject2);
+
 			continue;
 		}
 	}
