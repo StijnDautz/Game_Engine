@@ -1,6 +1,7 @@
 #include "TextureFactory.h"
-#include "IOManager.h"
-#include "Logger.h"
+
+#include <Engine\IO\IOManager.h>
+#include <Engine\IO\Logger.h>
 
 Texture* TextureFactory::create(std::vector<unsigned char> pixels, int width, int height)
 {
@@ -40,7 +41,7 @@ Texture * TextureFactory::create(int width, int height, RGBA8 color)
 	return create(pixels, width, height);
 }
 
-Texture * TextureFactory::createFromFile(std::string filePath)
+Texture * TextureFactory::loadFromFile(std::string filePath)
 {
 	std::vector<unsigned char> pixels; int w, h;
 	pixels = LoadPixelsFromFile(filePath.c_str(), w, h);

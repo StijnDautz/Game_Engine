@@ -1,10 +1,12 @@
 #include "Game.h"
+#include "Core\CameraComponent.h"
+#include "IO\Logger.h"
 
 ResourceManager* resourceManager = new ResourceManager();
 InputManager* inputManager = new InputManager();
 TimeManager* timeManager = new TimeManager();
 
-Game::Game() : _playing(true) {}
+Game::Game() : _playing(true), camera(nullptr) {}
 Game::~Game() {}
 
 int ms = 0;
@@ -20,7 +22,9 @@ void Game::run()
 	while (_playing) {
 		timeManager->restart();
 		Update();
-		_renderer.render();
+		_renderer.render(camera->GetComponent<CameraComponent>(), _gameObjects);
+
+		// measure and print average ms/frame
 		if (++c < SAMPLECOUNT) {
 			ms += timeManager->deltatime();
 		}
@@ -34,14 +38,19 @@ void Game::run()
 void Game::AddGameObject(GameObject* obj)
 {
 	_gameObjects.push_back(obj);
-
-	// there is a flaw in this design. How can an object change material after this, as the renderer is only accessible in Game
-	_renderer.AddRenderComponent(obj->renderComponent);
 }
 
 void Game::quit()
 {
 	_playing = false;
+}
+
+void Game::Init()
+{
+	camera = new GameObject();
+	camera->GetComponent<Transform>()->Translate(glm::vec3(0.0f, 0.0f, -10.0f));
+	glm::mat4 perspective = glm::perspective(1.2f, 1.3f, .1f, 100.f);
+	camera->AddComponent(new CameraComponent(perspective));
 }
 
 void Game::Update()

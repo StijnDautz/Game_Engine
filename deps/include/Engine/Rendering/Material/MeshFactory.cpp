@@ -1,4 +1,6 @@
 #include "MeshFactory.h"
+#include <Engine\IO\Logger.h>
+#include <Engine\IO\ObjLoader.h>
 
 Mesh* MeshFactory::create(std::vector<Vertex> vertices, std::vector<GLuint> indices, GLenum usage)
 {
@@ -18,6 +20,8 @@ Mesh* MeshFactory::create(std::vector<Vertex> vertices, std::vector<GLuint> indi
 
 Mesh * MeshFactory::createScreenQuad(float start, float end)
 {
+	// TODO add different shader to use this one
+	/*
 	std::vector<Vertex> vertices = {
 		Vertex(glm::vec3( end  ,  1.0f, 0.0f), glm::vec2(1.0f, 1.0f)),  // vertex 0
 		Vertex(glm::vec3( start,  1.0f, 0.0f), glm::vec2(0.0f, 1.0f)),  // vertex 1
@@ -30,7 +34,14 @@ Mesh * MeshFactory::createScreenQuad(float start, float end)
 		2,1,3, // second triangle
 	};
 
-	return MeshFactory::create(vertices, indices, GL_STATIC_DRAW);
+	return MeshFactory::create(vertices, indices, GL_STATIC_DRAW);*/
+	return nullptr;
+}
+
+Mesh * MeshFactory::loadMeshFromFile(std::string filepath)
+{
+	ObjResults data = LoadObjFile(filepath);
+	return create(data.vertices, data.indices, GL_STATIC_DRAW);
 }
 
 void MeshFactory::fillVBO(std::vector<Vertex> vertices, GLenum usage)
@@ -58,8 +69,11 @@ void MeshFactory::fillIBO(std::vector<GLuint> indices, GLenum usage)
 void MeshFactory::setAttribPointers()
 {
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (char*)offsetof(Vertex, position));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (char*)offsetof(Vertex, position));
 
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (char*)offsetof(Vertex, uv));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (char*)offsetof(Vertex, uv));
+
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (char*)offsetof(Vertex, normal));
 }

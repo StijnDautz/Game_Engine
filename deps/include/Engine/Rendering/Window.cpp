@@ -1,6 +1,6 @@
 #include "Window.h"
-#include "Logger.h"
 
+#include <Engine\IO\Logger.h>
 #include <GL\glew.h>
 
 Window::Window() : width(0), height(0), _sdlWindow(nullptr) {}

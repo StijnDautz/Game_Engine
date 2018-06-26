@@ -1,6 +1,6 @@
 #include "IOManager.h"
-#include "Logger.h"
 #include "picoPNG.h"
+#include "Logger.h"
 
 #include <fstream>
 #include <iostream>

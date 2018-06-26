@@ -1,4 +1,5 @@
 #include "Logger.h"
+
 #include <iostream>
 #include <SDL/SDL.h>
 
@@ -10,4 +11,9 @@ void fatalError(std::string error)
 	char c;
 	std::cin >> c;
 	SDL_Quit();
+}
+
+void Log(std::string message)
+{
+	std::cout << message << std::endl;
 }

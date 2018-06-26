@@ -1,10 +1,12 @@
 #pragma once
-#include "ResourceManager.h"
-#include "InputManager.h"
-#include "TimeManager.h"
-#include "Renderer.h"
-#include "FPSCounter.h"
-#include "GameObject.h"
+#include "Core\Behaviour.h"
+#include "Core\GameObject.h"
+#include "Core\Transform.h"
+#include "Rendering\Material\ResourceManager.h"
+#include "Input\InputManager.h"
+#include "Time\TimeManager.h"
+#include "Time\FPSCounter.h"
+#include "RendererV2.h"
 
 #include <vector>
 
@@ -22,18 +24,21 @@ public:
 	void quit();
 
 	virtual void Load() {}
-	virtual void Init() {}
+	virtual void Init();
 	virtual void Update();
 
 	void AddGameObject(GameObject* obj); // temporarily just the rendercomponent
 	int GetScreenWidth() { return _renderer.window.width; }
 	int GetScreenHeight() { return _renderer.window.height; }
 
+protected:
+	GameObject * camera;
+
 private:
 	bool _playing;
 
 	void setup();
-	Renderer _renderer;
+	RendererV2 _renderer;
 	FPSCounter _fpscounter;
 
 	std::vector<GameObject*> _gameObjects;

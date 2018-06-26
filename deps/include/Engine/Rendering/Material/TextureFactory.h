@@ -8,6 +8,6 @@ class TextureFactory
 public:
 	static Texture* create(std::vector<unsigned char> pixels, int width, int height);
 	static Texture* create(int width, int height, RGBA8 color);
-	static Texture* createFromFile(std::string filePath);
+	static Texture* loadFromFile(std::string filePath);
 };
 

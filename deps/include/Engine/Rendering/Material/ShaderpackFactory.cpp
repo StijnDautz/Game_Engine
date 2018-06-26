@@ -1,5 +1,6 @@
 #include "ShaderpackFactory.h"
-#include "Logger.h"
+
+#include <Engine\IO\Logger.h>
 
 Shaderpack * ShaderpackFactory::create(GLuint vertshader, GLuint fragshader)
 {
@@ -13,9 +14,8 @@ Shaderpack * ShaderpackFactory::create(GLuint vertshader, GLuint fragshader)
 	glLinkProgram(packID);
 	handleLinkingErrors(packID);
 
-	// get texture uniform location
-	GLint textureloc = glGetUniformLocation(packID, "tex");
-	return new Shaderpack(packID, textureloc);
+	//TODO add ToWorld and ToScreen
+	return new Shaderpack(packID);
 }
 
 void ShaderpackFactory::handleLinkingErrors(GLuint packID) {

@@ -1,18 +1,18 @@
 #include "ShaderFactory.h"
-#include "Logger.h"
-#include "IOManager.h"
 
+#include <Engine\IO\IOManager.h>
+#include <Engine\IO\Logger.h>
 #include <vector>
 
 Shader* ShaderFactory::create(GLenum type, std::string filePath)
 {
-	GLuint vertex_shader = glCreateShader(type);
+	GLuint shaderID = glCreateShader(type);
 	std::string file = ReadStringFromFile(filePath);
 	const char *source = file.c_str();
-	glShaderSource(vertex_shader, 1, &source, nullptr);
-	glCompileShader(vertex_shader);
-	HandleCompileErrors(vertex_shader, filePath);
-	return new Shader(vertex_shader);
+	glShaderSource(shaderID, 1, &source, nullptr);
+	glCompileShader(shaderID);
+	HandleCompileErrors(shaderID, filePath);
+	return new Shader(shaderID);
 }
 
 void ShaderFactory::HandleCompileErrors(GLuint id, std::string filePath)

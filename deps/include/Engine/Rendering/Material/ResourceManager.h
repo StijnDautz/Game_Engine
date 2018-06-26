@@ -1,8 +1,8 @@
 #pragma once
-#include "Mesh.h"
-#include "Texture.h"
 #include "Shader.h"
 #include "Shaderpack.h"
+#include "Texture.h"
+#include "Mesh.h"
 
 #include <string>
 #include <vector>
@@ -27,6 +27,7 @@ public:
 	Shader* LoadShader(GLenum type, std::string filePath);
 
 	//SHADERPACKS
+	Shaderpack* LoadShaderpack(std::string name, std::string vsFilepath, std::string fsFilepath);
 	void AddShaderpack(std::string name, Shaderpack* shaderpack);
 
 	//GET FUNCTIONS

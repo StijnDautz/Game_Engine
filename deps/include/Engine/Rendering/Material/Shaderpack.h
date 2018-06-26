@@ -1,6 +1,5 @@
 #pragma once
 #include "Shader.h"
-#include "Mesh.h"
 
 #include <string>
 #include <vector>
@@ -10,8 +9,15 @@ struct Shaderpack
 public:
 	GLuint id; //make this private?
 	GLint textureLocation;
+	GLint toWorldLocation;
+	GLint toScreenLocation;
 
-	Shaderpack(GLuint packID, GLint textureLoc) : id(packID), textureLocation(textureLoc) {}
+	Shaderpack(GLuint packID) : id(packID) {
+		// get and set texture uniform location
+		textureLocation = glGetUniformLocation(packID, "tex");
+		toWorldLocation = glGetUniformLocation(packID, "toWorld");
+		toScreenLocation = glGetUniformLocation(packID, "toScreen");
+	}
 	~Shaderpack() {}
 
 	void Bind()

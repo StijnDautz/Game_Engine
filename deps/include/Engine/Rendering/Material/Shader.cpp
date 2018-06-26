@@ -1,6 +1,7 @@
 // More info on shader compilation at https://www.khronos.org/opengl/wiki/Shader_Compilation
 #include "Shader.h"
-#include "Logger.h"
+
+#include <Engine\IO\Logger.h>
 #include <vector>
 
 Shader::Shader() {}
