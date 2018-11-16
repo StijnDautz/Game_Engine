@@ -1,4 +1,6 @@
 #include "MeshFactory.h"
+#include "Logger.h"
+#include <stdlib.h>     /* abs */
 
 Mesh* MeshFactory::create(std::vector<Vertex> vertices, std::vector<GLuint> indices, GLenum usage)
 {
@@ -16,8 +18,10 @@ Mesh* MeshFactory::create(std::vector<Vertex> vertices, std::vector<GLuint> indi
 	return new Mesh(vao);
 }
 
-Mesh * MeshFactory::createScreenQuad(float start, float end)
+/* Parameters should be within [-1.0f, +1.0f] */
+Mesh * MeshFactory::createPanel(float start, float end)
 {
+	if (abs(start) > 1 || abs(end) > 1) fatalError("start: " + std::to_string(start) + " or " + "end: " + std::to_string(end) + "was not within the range[-1.0f, +1.0f]");
 	std::vector<Vertex> vertices = {
 		Vertex(glm::vec3( end  ,  1.0f, 0.0f), glm::vec2(1.0f, 1.0f)),  // vertex 0
 		Vertex(glm::vec3( start,  1.0f, 0.0f), glm::vec2(0.0f, 1.0f)),  // vertex 1

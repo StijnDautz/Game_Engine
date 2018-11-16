@@ -58,3 +58,4 @@ ipch/
 # Database files
 *.db
 *.opendb
+/CodeGraphData
